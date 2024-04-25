@@ -21,3 +21,5 @@ hass compose as oci containers modules
 
 system config for nas, zfs and raid 5 + backup of services data in it
 
+
+server + client modbus + ask api airzone

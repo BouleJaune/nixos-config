@@ -58,7 +58,7 @@
     qbittorrent-nox
     git
     libgcc
-    #btop # cause a crash
+    btop # cause a crash
     ranger
   ];
 
@@ -120,7 +120,6 @@
   services.nginx = {
     enable = true;
     recommendedGzipSettings = true;
-
 #forceSSL = true;
     virtualHosts = {
       "vault.nixos" = { 
