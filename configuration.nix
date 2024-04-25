@@ -12,7 +12,10 @@
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+ 
+  # Settings to get local builds but doesn't work
   #nix.settings.trusted-public-keys = [ "garyarch:/etc/nixos/public-nix-garyarch" ];
+
 # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -30,9 +33,9 @@
 
 # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.xenio = {
-    initialPassword = "1997";
+    initialPassword = "1997"; # Initial password for first connection
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ and docker for the user.
   };
   security.sudo.enable = true;
   security.sudo.extraRules= [
@@ -45,16 +48,17 @@
   }
   ];
 
+  # Virtualisation options
   virtualisation.docker.enable = true;
 
-# List packages installed in system profile. To search, run:
+# List packages installed in system profile. 
   environment.systemPackages = with pkgs; [
     wget
     docker
     qbittorrent-nox
     git
     libgcc
-    #btop
+    #btop # cause a crash
     ranger
   ];
 
@@ -85,6 +89,7 @@
     settings.PasswordAuthentication = true;
   };
 
+# Qbitorroent headless
   systemd = {
     packages = [pkgs.qbittorrent-nox];
     services."qbittorrent-nox@xenio" = {
