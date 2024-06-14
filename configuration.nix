@@ -19,7 +19,10 @@
 # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = [ "ntfs" ];
+  boot.supportedFilesystems = [ "ntfs" "zfs" ];
+  boot.zfs.forceImportRoot = false;
+  networking.hostId = "952a6e3b";
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
 # Set your time zone.
   time.timeZone = "Europe/Paris";
@@ -54,6 +57,7 @@
 # List packages installed in system profile. 
   environment.systemPackages = with pkgs; [
     wget
+    tmux
     docker
     qbittorrent-nox
     git
@@ -75,13 +79,15 @@
 	'';
       shares = {
 	public = {
-	  path = "/mnt/hdd/Vidéos";
+	  path = "/bigpool/media/Videos/";
 	  browseable = "yes";
 	  "read only" = "no";
 	  "guest ok" = "yes";
 	};
       };
     };
+
+  services.octoprint.enable = true;
 
 # Enable the OpenSSH daemon.
   services.openssh = {
@@ -156,7 +162,7 @@
     address = "192.168.1.200";
     prefixLength = 24;
   } ];
-  networking.defaultGateway = "192.168.1.1";
+  networking.defaultGateway = "192.168.1.254";
 
 # Copy the NixOS configuration file and link it from the resulting system
 # (/run/current-system/configuration.nix). This is useful in case you
