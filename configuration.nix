@@ -57,6 +57,7 @@
 # List packages installed in system profile. 
   environment.systemPackages = with pkgs; [
     wget
+    avrdude
     tmux
     docker
     qbittorrent-nox
@@ -87,7 +88,38 @@
       };
     };
 
-  services.octoprint.enable = true;
+  nixpkgs.overlays = [(self: super: {
+    octoprint = super.octoprint.override {
+      packageOverrides = pyself: pysuper: {
+        octoprint-firmwareupdater = pyself.buildPythonPackage rec {
+          pname = "FirmwareUpdater";
+          version = "1.14.0";
+          src = self.fetchFromGitHub {
+            owner = "OctoPrint";
+            repo = "OctoPrint-FirmwareUpdater";
+            rev = "${version}";
+            sha256 = "sha256-CUNjM/IJJS/lqccZ2B0mDOzv3k8AgmDreA/X9wNJ7iY=";
+          };
+          propagatedBuildInputs = [ pysuper.octoprint ];
+          doCheck = false;
+        };
+      };
+    };
+  })];
+
+  services.dolibarr = {
+    enable = true;
+    nginx.serverName = "dolibarr.nixos";
+    nginx.listen = 
+      [{ port = 5122;
+         addr = "127.0.0.1";
+         }];
+        };
+
+  services.octoprint = {
+    enable = true;
+    plugins = plugins: with plugins; [ themeify stlviewer octoprint-firmwareupdater ];
+        };
 
 # Enable the OpenSSH daemon.
   services.openssh = {
@@ -141,6 +173,11 @@
 	};
       };
       "torrent.nixos".locations."/" = {proxyPass = "http://127.0.0.1:8080";
+	extraConfig = ''
+	  proxy_set_header   X-Forwarded-Host  http://$host;
+	'';
+      };
+      "dolibarr.nixos".locations."/" = {proxyPass = "http://127.0.0.1:5122";
 	extraConfig = ''
 	  proxy_set_header   X-Forwarded-Host  http://$host;
 	'';
