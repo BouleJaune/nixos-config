@@ -109,11 +109,10 @@
 
   services.dolibarr = {
     enable = true;
+    domain = "dolibarr.nixos";
     nginx.serverName = "dolibarr.nixos";
-    nginx.listen = 
-      [{ port = 5122;
-         addr = "127.0.0.1";
-         }];
+    nginx.enableACME = true;
+    nginx.forceSSL = true;
         };
 
   services.octoprint = {
@@ -146,11 +145,20 @@
 
   services.adguardhome = {
     enable = true;
+    port = "3000";
     settings = {
       trusted_proxies = "192.168.1.1, 127.0.0.1";
     };
   };
 
+  virtualisation.oci-containers.containers = {
+    "kanboard" = {
+      image = "docker.io/kanboard/kanboard:latest";
+      ports = ["127.0.0.1:3010:443"];
+      volumes = ["kanboard_data:/var/www/app/data"];
+      autoStart = true;
+      };
+    };
 
   security.acme.defaults.email = "thierry.amettler@proton.me";
   security.acme.acceptTerms = true;
@@ -177,12 +185,13 @@
 	  proxy_set_header   X-Forwarded-Host  http://$host;
 	'';
       };
-      "dolibarr.nixos".locations."/" = {proxyPass = "http://127.0.0.1:5122";
-	extraConfig = ''
-	  proxy_set_header   X-Forwarded-Host  http://$host;
-	'';
+       "kanboard.nixos" = {
+	  enableACME = true;
+          forceSSL = true;
+          locations."/" = {proxyPass = "https://127.0.0.1:3010";
+            };
       };
-      "adguard.nixos".locations."/" = {proxyPass = "http://127.0.0.1:3001";
+      "adguard.nixos".locations."/" = {proxyPass = "http://127.0.0.1:3000";
 	extraConfig = ''
 	  proxy_set_header   X-Forwarded-Host  http://$host;
 	proxy_set_header   X-Real-IP   $remote_addr;
