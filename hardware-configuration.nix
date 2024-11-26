@@ -33,15 +33,6 @@
       fsType = "vfat";
     };
 
-#  fileSystems."/mnt/hdd" =
-#    { device = "/dev/disk/by-uuid/B62E944B2E940711";
-#      fsType = "ntfs3";
-#    };
-
-#  fileSystems."/mnt/hdd/Vidéos/ssd" =
-#    { device = "/dev/disk/by-uuid/5b78af70-4137-4643-84a0-e024753216b8";
-#      fsType = "ext4";
-#    };
 
   swapDevices = [ ];
 

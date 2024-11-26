@@ -13,8 +13,6 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
  
-  # Settings to get local builds but doesn't work
-  #nix.settings.trusted-public-keys = [ "garyarch:/etc/nixos/public-nix-garyarch" ];
 
 # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -22,7 +20,6 @@
   boot.supportedFilesystems = [ "ntfs" "zfs" ];
   boot.zfs.forceImportRoot = false;
   networking.hostId = "952a6e3b";
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
 # Set your time zone.
   time.timeZone = "Europe/Paris";
@@ -35,13 +32,15 @@
   };
 
 # Define a user account. Don't forget to set a password with ‘passwd’.
+# User is not fully declarative like this
   users.users.xenio = {
     initialPassword = "1997"; # Initial password for first connection
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ and docker for the user.
+    extraGroups = [ "qemu-libvirtd" "libvirtd" "libvirt" "wheel" "docker" ]; 
   };
+
   security.sudo.enable = true;
-  security.sudo.extraRules= [
+  security.sudo.extraRules = [
   {  users = [ "xenio" ];
     commands = [
     { command = "ALL" ;
@@ -51,8 +50,25 @@
   }
   ];
 
-  # Virtualisation options
+# Virtualisation options
   virtualisation.docker.enable = true;
+  virtualisation.libvirtd = {
+  enable = true;
+  qemu = {
+    package = pkgs.qemu_kvm;
+    runAsRoot = true;
+    swtpm.enable = true;
+    ovmf = {
+      enable = true;
+      packages = [(pkgs.OVMF.override {
+        secureBoot = true;
+        tpmSupport = true;
+      }).fd];
+    };
+  };
+};
+
+  security.polkit.enable = true;
 
 # List packages installed in system profile. 
   environment.systemPackages = with pkgs; [
@@ -65,23 +81,23 @@
     libgcc
     btop # cause a crash
     ranger
+    win-virtio
   ];
 
 # samba server
   services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
     services.samba = {
       enable = true;
-      securityType = "user";
-      extraConfig = ''
-	workgroup = MYGROUP
-	netbios name = nixos
-	security = user
-	guest account = nobody
-	'';
-      shares = {
-	public = {
-	  path = "/bigpool/media/Videos/";
-	  browseable = "yes";
+      settings = {
+	global = {
+	  "workgroup" = "MYGROUP";
+	  "netbios name" = "nixos";
+	  "security" = "user";
+	  "guest account" = "nobody";
+	};
+	"public" = {
+	  "path" = "/bigpool/media/Videos/";
+	  "browseable" = "yes";
 	  "read only" = "no";
 	  "guest ok" = "yes";
 	};
@@ -117,7 +133,9 @@
 
   services.octoprint = {
     enable = true;
-    plugins = plugins: with plugins; [ themeify stlviewer octoprint-firmwareupdater ];
+    plugins = plugins: with plugins; [ themeify 
+    # stlviewer octoprint-firmwareupdater 
+    ];
         };
 
 # Enable the OpenSSH daemon.
@@ -145,7 +163,7 @@
 
   services.adguardhome = {
     enable = true;
-    port = "3000";
+    port = 3000;
     settings = {
       trusted_proxies = "192.168.1.1, 127.0.0.1";
     };
@@ -204,10 +222,15 @@
 # Or disable the firewall altogether.
   networking.firewall.enable = false;
 # Set static if and default gateway
-  networking.interfaces.enp8s0.ipv4.addresses = [ {
+  networking.interfaces.virbr1.ipv4.addresses = [ {
     address = "192.168.1.200";
     prefixLength = 24;
   } ];
+  networking.bridges = {
+    "virbr1" = {
+      interfaces = [ "enp8s0" ];
+    };
+  };
   networking.defaultGateway = "192.168.1.254";
 
 # Copy the NixOS configuration file and link it from the resulting system
