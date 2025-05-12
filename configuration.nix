@@ -1,18 +1,15 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
-
 { config, pkgs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    #./home.nix
+    ./modules/media.nix
+    ./modules/network.nix
+    ./modules/services-divers.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
- 
 
 # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -21,7 +18,7 @@
   boot.zfs.forceImportRoot = false;
   networking.hostId = "952a6e3b";
 
-# Set your time zone.
+# Set time zone.
   time.timeZone = "Europe/Paris";
 
 # Select internationalisation properties.
@@ -31,12 +28,11 @@
     keyMap = "fr";
   };
 
-# Define a user account. Don't forget to set a password with ‘passwd’.
-# User is not fully declarative like this
+  users.mutableUsers = false;
   users.users.xenio = {
-    initialPassword = "1997"; # Initial password for first connection
+    password =  builtins.readFile "/etc/nixos/secrets/xenio-pwd";
     isNormalUser = true;
-    extraGroups = [ "qemu-libvirtd" "libvirtd" "libvirt" "wheel" "docker" ]; 
+    extraGroups = [ "qemu-libvirtd" "libvirtd" "libvirt" "wheel" "docker" "music" "video" ]; 
   };
 
   security.sudo.enable = true;
@@ -45,10 +41,9 @@
     commands = [
     { command = "ALL" ;
       options= [ "NOPASSWD" ]; 
-    }
-    ];
-  }
+    }];}
   ];
+
 
 # Virtualisation options
   virtualisation.docker.enable = true;
@@ -64,9 +59,9 @@
         secureBoot = true;
         tpmSupport = true;
       }).fd];
+      };
     };
   };
-};
 
   security.polkit.enable = true;
 
@@ -76,162 +71,44 @@
     avrdude
     tmux
     docker
-    qbittorrent-nox
-    git
     libgcc
-    btop # cause a crash
+    btop
     ranger
     win-virtio
   ];
 
-# samba server
-  services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
-    services.samba = {
-      enable = true;
-      settings = {
-	global = {
-	  "workgroup" = "MYGROUP";
-	  "netbios name" = "nixos";
-	  "security" = "user";
-	  "guest account" = "nobody";
-	};
-	"public" = {
-	  "path" = "/bigpool/media/Videos/";
-	  "browseable" = "yes";
-	  "read only" = "no";
-	  "guest ok" = "yes";
-	};
-      };
-    };
+# VSC server patch
+programs.nix-ld.enable = true;
 
-  nixpkgs.overlays = [(self: super: {
-    octoprint = super.octoprint.override {
-      packageOverrides = pyself: pysuper: {
-        octoprint-firmwareupdater = pyself.buildPythonPackage rec {
-          pname = "FirmwareUpdater";
-          version = "1.14.0";
-          src = self.fetchFromGitHub {
-            owner = "OctoPrint";
-            repo = "OctoPrint-FirmwareUpdater";
-            rev = "${version}";
-            sha256 = "sha256-CUNjM/IJJS/lqccZ2B0mDOzv3k8AgmDreA/X9wNJ7iY=";
-          };
-          propagatedBuildInputs = [ pysuper.octoprint ];
-          doCheck = false;
-        };
-      };
-    };
-  })];
-
-  services.dolibarr = {
+# git
+  programs.git = {
     enable = true;
-    domain = "dolibarr.nixos";
-    nginx.serverName = "dolibarr.nixos";
-    nginx.enableACME = true;
-    nginx.forceSSL = true;
-        };
+    config = [ {user.name = "BouleJaune";} {user.email = "amthierry81@live.fr";}];
+  };
 
-  services.octoprint = {
-    enable = true;
-    plugins = plugins: with plugins; [ themeify 
-    # stlviewer octoprint-firmwareupdater 
-    ];
-        };
 
 # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = true;
+    openFirewall = true;
   };
 
-# Qbitorroent headless
-  systemd = {
-    packages = [pkgs.qbittorrent-nox];
-    services."qbittorrent-nox@xenio" = {
-      overrideStrategy = "asDropin";
-      wantedBy = ["multi-user.target"];
-    };
-  };
-
-  services.vaultwarden = {
+# Automatic upgrades avec reboot si nécessaire
+  system.autoUpgrade = {
     enable = true;
-    config = {
-      ROCKET_ADDRESS = "127.0.0.1";
-      ROCKET_PORT = 8222;
+    allowReboot = true;
+    rebootWindow = { lower = "01:00"; 
+                     upper = "05:00"; };
+    };
+
+# Nettoyage auto
+  nix = {
+    gc = {
+      automatic = true;
+      options = "--max-freed 1G --delete-older-than 7d";
     };
   };
-
-  services.adguardhome = {
-    enable = true;
-    port = 3000;
-    settings = {
-      trusted_proxies = "192.168.1.1, 127.0.0.1";
-    };
-  };
-
-  virtualisation.oci-containers.containers = {
-    "kanboard" = {
-      image = "docker.io/kanboard/kanboard:latest";
-      ports = ["127.0.0.1:3010:443"];
-      volumes = ["kanboard_data:/var/www/app/data"];
-      autoStart = true;
-      };
-    };
-
-  security.acme.defaults.email = "thierry.amettler@proton.me";
-  security.acme.acceptTerms = true;
-
-  services.nginx = {
-    enable = true;
-    recommendedGzipSettings = true;
-#forceSSL = true;
-    virtualHosts = {
-      "vault.nixos" = { 
-	enableACME = true;
-	forceSSL = true;
-	locations."/" = {proxyPass = "http://127.0.0.1:8222"; 
-	};};
-      "hass.nixos" = { 
-	enableACME = true;
-	forceSSL = true;
-	locations."/" = {proxyPass = "http://127.0.0.1:8123";
-	  proxyWebsockets = true;
-	};
-      };
-      "torrent.nixos".locations."/" = {proxyPass = "http://127.0.0.1:8080";
-	extraConfig = ''
-	  proxy_set_header   X-Forwarded-Host  http://$host;
-	'';
-      };
-       "kanboard.nixos" = {
-	  enableACME = true;
-          forceSSL = true;
-          locations."/" = {proxyPass = "https://127.0.0.1:3010";
-            };
-      };
-      "adguard.nixos".locations."/" = {proxyPass = "http://127.0.0.1:3000";
-	extraConfig = ''
-	  proxy_set_header   X-Forwarded-Host  http://$host;
-	proxy_set_header   X-Real-IP   $remote_addr;
-	'';
-	proxyWebsockets = true;
-      };
-    };
-  };
-
-# Or disable the firewall altogether.
-  networking.firewall.enable = false;
-# Set static if and default gateway
-  networking.interfaces.virbr1.ipv4.addresses = [ {
-    address = "192.168.1.200";
-    prefixLength = 24;
-  } ];
-  networking.bridges = {
-    "virbr1" = {
-      interfaces = [ "enp8s0" ];
-    };
-  };
-  networking.defaultGateway = "192.168.1.254";
 
 # Copy the NixOS configuration file and link it from the resulting system
 # (/run/current-system/configuration.nix). This is useful in case you
@@ -247,4 +124,3 @@
   system.stateVersion = "23.05"; # Did you read the comment?
 
 }
-
