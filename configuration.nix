@@ -75,6 +75,7 @@
     btop
     ranger
     win-virtio
+    gh
   ];
 
 # VSC server patch
@@ -83,7 +84,11 @@ programs.nix-ld.enable = true;
 # git
   programs.git = {
     enable = true;
-    config = [ {user.name = "BouleJaune";} {user.email = "amthierry81@live.fr";}];
+    package = pkgs.gitFull;
+    config = {
+      user.name = "BouleJaune";
+      user.email = "amthierry81@live.fr";
+    };
   };
 
 
