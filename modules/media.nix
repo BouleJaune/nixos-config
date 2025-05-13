@@ -5,23 +5,6 @@
   users.groups.music = {};
   users.groups.video = {};
 
-  # Music server
-  users.users.navidrome = {
-    isSystemUser = true;
-    extraGroups = [ "music" "video" ];
-    group = "navidrome"; };
-  services.navidrome = { 
-    enable = true;
-    settings = { 
-      Address = "127.0.0.1";
-      Port = 4533;
-      MusicFolder = "/bigpool/media/Musics";
-      EnableSharing = true;
-      LastFM.ApiKey = builtins.readFile "/etc/nixos/secrets/lastfm-api-key";
-      LastFM.Secret = builtins.readFile "/etc/nixos/secrets/lastfm-secret";
-    }; 
-  };
-
 
   # samba server
   services.samba-wsdd.enable = true; # make shares visible for windows 10 clients

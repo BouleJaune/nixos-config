@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 
 {
   imports =
@@ -7,7 +7,31 @@
     ./modules/media.nix
     ./modules/network.nix
     ./modules/services-divers.nix
+    #inputs.sops-nix.nixosModules.sops
     ];
+
+  # Secret management
+  sops.defaultSopsFile = "${./secrets/secrets.yaml}";
+  sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "/home/xenio/.config/sops/age/keys.txt";
+  sops.secrets.apikey = {};
+
+  # Music server
+  users.users.navidrome = {
+    isSystemUser = true;
+    extraGroups = [ "music" "video" ];
+    group = "navidrome"; };
+  services.navidrome = { 
+    enable = true;
+    settings = { 
+      Address = "127.0.0.1";
+      Port = 4533;
+      MusicFolder = "/bigpool/media/Musics";
+      EnableSharing = true;
+      #LastFM.ApiKey = config.sops.secrets.apikey;
+      LastFM.Secret = builtins.readFile "/etc/nixos/secrets/lastfm-secret";
+    }; 
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -75,6 +99,9 @@
     btop
     ranger
     win-virtio
+    # secret management cli
+    age
+    sops
   ];
 
 # VSC server patch
