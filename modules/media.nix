@@ -58,6 +58,21 @@
     };
   };
 
+  # Music server
+  users.users.navidrome = {
+    isSystemUser = true;
+    extraGroups = [ "music" "video" ];
+    group = "navidrome"; };
+  services.navidrome = { 
+    enable = true;
+    settings = { 
+      Address = "127.0.0.1";
+      Port = 4533;
+      MusicFolder = "/bigpool/media/Musics";
+      EnableSharing = true;
+    }; 
+  };
+
   services.lidarr = {
     openFirewall = true;
     enable = true;
