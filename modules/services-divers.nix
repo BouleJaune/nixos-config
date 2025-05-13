@@ -48,17 +48,6 @@
 
   # rootless this
   virtualisation.oci-containers.containers = {
-    "planning-poker" = {
-      image = "ghcr.io/boulejaune/planning-poker:main";
-      ports = ["127.0.0.1:8015:8000"];
-      volumes = ["planning-poker-data:/data"];
-      environment = { virtual_host = "poker-planning.boulejaune.com"; };
-      autoStart = true;
-      };
-    };
-
-  # rootless this
-  virtualisation.oci-containers.containers = {
     "kanboard" = {
       image = "docker.io/kanboard/kanboard:latest";
       ports = ["127.0.0.1:3010:443"];

@@ -3,9 +3,9 @@
 {
 
   networking.firewall= {
-    enable = true;
-    allowedTCPPorts = [ 443 80 53 ];
-    # allowedUDPPorts = [ 53 25565 ];
+    enable = false;
+    allowedTCPPorts = [ 443 80 53 58051 58052 ];
+    allowedUDPPorts = [ 1900 ];
   };
 
 # Set static if and default gateway

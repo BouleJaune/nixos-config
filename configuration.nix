@@ -75,7 +75,6 @@
     btop
     ranger
     win-virtio
-    gh
   ];
 
 # VSC server patch

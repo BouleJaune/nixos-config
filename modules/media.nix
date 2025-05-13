@@ -75,4 +75,10 @@
     };
   };
 
+  services.lidarr = {
+    openFirewall = true;
+    enable = true;
+    group = "music";
+  };
+
 }
