@@ -25,7 +25,6 @@
     enable = true;
     openFirewall = true;
     plugins = plugins: with plugins; [ themeify 
-    # stlviewer octoprint-firmwareupdater 
     ];
         };
 
@@ -33,7 +32,6 @@
     enable = true;
     domain = "dolibarr.nixos";
     nginx.serverName = "dolibarr.nixos";
-    #nginx.listenAddresses = [ "127.0.0.1" ];
     nginx.enableACME = true;
     nginx.forceSSL = true;
         };
@@ -46,6 +44,12 @@
     };
   };
 
+  # users.users.kanboard = {
+  #   isNormalUser = true;
+  #   # isSystemUser = true;
+  #   group = "kanboard";
+  # };
+  # users.groups.kanboard = {};
   # rootless this
   virtualisation.oci-containers.containers = {
     "kanboard" = {
@@ -53,6 +57,7 @@
       ports = ["127.0.0.1:3010:443"];
       volumes = ["kanboard_data:/var/www/app/data"];
       autoStart = true;
+      # podman.user = "kanboard";
       };
     };
 

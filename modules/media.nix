@@ -5,6 +5,12 @@
   users.groups.music = {};
   users.groups.video = {};
 
+  services.prowlarr.enable = true;
+  services.flaresolverr.enable = true;
+  services.radarr = {
+    enable = true;
+    group = "video";
+  };
 
   # samba server
   services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
@@ -42,13 +48,12 @@
 
 
 # Qbitorroent headless
-  users.groups.qbit = {};
   users.users.qbit = {
     isSystemUser = true;
     createHome = true;
     home = "/var/lib/qbittorrent";
     extraGroups = [ "music" "video" ];
-    group = "qbit"; };
+    group = "video"; };
   systemd = { 
     packages = [pkgs.qbittorrent-nox];
     services."qbittorrent-nox@qbit" = {
@@ -73,10 +78,5 @@
     }; 
   };
 
-  services.lidarr = {
-    openFirewall = true;
-    enable = true;
-    group = "music";
-  };
 
 }

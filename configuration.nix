@@ -7,15 +7,22 @@
     ./modules/media.nix
     ./modules/network.nix
     ./modules/services-divers.nix
+    ./modules/xeniarr.nix
+    ./modules/soularr.nix
     ];
 
   # Secret management
-  sops.defaultSopsFile = ./secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/home/xenio/.config/sops/age/keys.txt";
-  sops.secrets.xenio-pwd= {
-    neededForUsers = true;
-   };
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/xenio/.config/sops/age/keys.txt";
+
+    secrets.xenio-pwd= {
+      neededForUsers = true;
+    };
+    #secrets.slskd-apikey = {};
+    secrets.slskd-env = {};
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -101,6 +108,9 @@ programs.nix-ld.enable = true;
     };
   };
 
+  # services.dashy.enable = true;
+  # services.dashy.virtualHost.enableNginx = true;
+  # services.dashy.virtualHost.domain = "dashy.nixos";
 
 # Enable the OpenSSH daemon.
   services.openssh = {
