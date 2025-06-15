@@ -44,12 +44,6 @@
     };
   };
 
-  # users.users.kanboard = {
-  #   isNormalUser = true;
-  #   # isSystemUser = true;
-  #   group = "kanboard";
-  # };
-  # users.groups.kanboard = {};
   # rootless this
   virtualisation.oci-containers.containers = {
     "kanboard" = {

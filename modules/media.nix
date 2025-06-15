@@ -5,13 +5,6 @@
   users.groups.music = {};
   users.groups.video = {};
 
-  services.prowlarr.enable = true;
-  services.flaresolverr.enable = true;
-  services.radarr = {
-    enable = true;
-    group = "video";
-  };
-
   # samba server
   services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
     services.samba = {
@@ -34,18 +27,6 @@
     };
 
 
-  # Jellyfin
-  users.users.jellyfin = {
-    isSystemUser = true;
-    extraGroups = [ "music" "video" ];
-  };
-  services.jellyfin = {
-    enable = true;
-    openFirewall = true;
-    group = "video";
-    };
-  services.jellyseerr.enable = true;
-
 
 # Qbitorroent headless
   users.users.qbit = {
@@ -60,6 +41,7 @@
       enable = true;
       overrideStrategy = "asDropin";
       wantedBy = ["multi-user.target"];
+      serviceConfig.UMask = "002";
     };
   };
 

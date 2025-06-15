@@ -55,9 +55,12 @@
     enable = true;
     recommendedGzipSettings = true;
     virtualHosts = {
+
       "default" = {
-      default = true;
-      redirectCode = 444;
+        default = true;
+        redirectCode = 300;
+        enableACME = true;
+        forceSSL = true;
       };
 
       "vault.nixos" = { 
@@ -103,17 +106,7 @@
             };
       };
 
-       "prowlarr.nixos" = {
-        enableACME = true;
-        forceSSL = true;
-        locations."/" = {proxyPass = "http://127.0.0.1:9696";};
-      };
 
-       "radarr.nixos" = {
-        enableACME = true;
-        forceSSL = true;
-        locations."/" = {proxyPass = "http://127.0.0.1:7878";};
-      };
 
        "navidrome.nixos" = {
         enableACME = true;
@@ -130,15 +123,6 @@
     	  enableACME = true;
           forceSSL = true;
           locations."/" = {proxyPass = "https://127.0.0.1:3010";};
-      };
-
-      "jellyfin.nixos".locations."/" = {
-        proxyPass = "http://127.0.0.1:8096";
-        extraConfig = ''
-        proxy_set_header   X-Forwarded-Host  http://$host;
-        proxy_set_header   X-Real-IP   $remote_addr;
-	    '';
-	    proxyWebsockets = true;
       };
 
       "adguard.nixos".locations."/" = {

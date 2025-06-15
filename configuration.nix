@@ -4,11 +4,7 @@
   imports =
     [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./modules/media.nix
-    ./modules/network.nix
-    ./modules/services-divers.nix
-    ./modules/xeniarr.nix
-    ./modules/soularr.nix
+    ./modules/default.nix
     ];
 
   # Secret management
@@ -107,10 +103,6 @@ programs.nix-ld.enable = true;
       user.email = "amthierry81@live.fr";
     };
   };
-
-  # services.dashy.enable = true;
-  # services.dashy.virtualHost.enableNginx = true;
-  # services.dashy.virtualHost.domain = "dashy.nixos";
 
 # Enable the OpenSSH daemon.
   services.openssh = {
