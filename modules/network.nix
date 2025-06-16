@@ -2,22 +2,24 @@
 
 {
 
-  networking.firewall= {
-    enable = false;
-    allowedTCPPorts = [ 443 80 53 58051 58052 ];
-    allowedUDPPorts = [ 1900 ];
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 443 80 53 ];
+    allowedUDPPorts = [ 53 51820 ];
   };
 
+  networking.nat.enable = true;
+  networking.nat.externalInterface = "enp8s0";
+  networking.nat.internalInterfaces = [ "wg0" ];
+   
+  networking.wg-quick.interfaces.wg0.configFile = config.services.wireguard-ui.configDir + "/wg0.conf";
+
 # Set static if and default gateway
-  networking.interfaces.virbr1.ipv4.addresses = [ {
+  networking.interfaces.enp8s0.ipv4.addresses = [ {
     address = "192.168.1.200";
     prefixLength = 24;
   } ];
-  networking.bridges = {
-    "virbr1" = {
-      interfaces = [ "enp8s0" ];
-    };
-  };
+
   networking.defaultGateway = "192.168.1.254";
 
   services.adguardhome = {
@@ -106,7 +108,11 @@
             };
       };
 
-
+       "wgui.nixos" = {
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = {proxyPass = "http://127.0.0.1:5012";};
+      };
 
        "navidrome.nixos" = {
         enableACME = true;
@@ -125,6 +131,15 @@
           locations."/" = {proxyPass = "https://127.0.0.1:3010";};
       };
 
+      "adguard.nixos-vpn".locations."/" = {
+        proxyPass = "http://127.0.0.1:3000";
+        extraConfig = ''
+        proxy_set_header   X-Forwarded-Host  http://$host;
+        proxy_set_header   X-Real-IP   $remote_addr;
+        '';
+        proxyWebsockets = true;
+      };
+
       "adguard.nixos".locations."/" = {
         proxyPass = "http://127.0.0.1:3000";
         extraConfig = ''
@@ -136,4 +151,9 @@
     };
   };
 
+  services.wireguard-ui = {
+    enable = true;
+    port = 5012;
+  };
+  
 }

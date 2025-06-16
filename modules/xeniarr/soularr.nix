@@ -77,6 +77,7 @@ in
           /run/current-system/sw/bin/cp -u ${configFile} /var/lib/soularr/config.ini
         '';
         ExecStart = "${getExe cfg.package} --config-dir /var/lib/soularr";
+        UMask = "002";
         StateDirectory = "soularr";
       };
     };
@@ -85,7 +86,7 @@ in
       wantedBy = [ "timers.target" ];
       timerConfig = {
         OnnbootSec = "15min";
-        OnUnitActiveSec = config.services.soularr.interval;
+        OnUnitInactiveSec = config.services.soularr.interval;
         Persistent = true;
       };
     };

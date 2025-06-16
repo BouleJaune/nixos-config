@@ -12,6 +12,7 @@ imports = [
 ./xeniarr/soularr.nix
 ./xeniarr/xeniarr.nix
 ./xeniarr/lidarr.nix
+./wireguard-ui.nix
 ./jellyfin.nix
 ];
 }

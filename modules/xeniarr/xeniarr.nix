@@ -9,6 +9,7 @@
   
   services.flaresolverr.enable = true;
 
+  systemd.services.slskd.serviceConfig.UMask = "002";
   services.slskd = {
     enable = true;
     domain = "slskd.nixos";
@@ -42,7 +43,8 @@
       host_url = "http://slskd.nixos";
       url_base = "/";
       download_dir = config.services.slskd.settings.directories.downloads;
+      stalled_timeout = "1800";
     };
   };
-   
+
 }
