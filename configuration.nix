@@ -5,6 +5,7 @@
     [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./modules/default.nix
+    ./server/default.nix
     ];
 
   # Secret management

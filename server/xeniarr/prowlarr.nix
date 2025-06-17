@@ -8,14 +8,7 @@
         locations."/" = {proxyPass = "http://127.0.0.1:9696";};
       };
 
-  dashy.xeniarr.entry = [
-  {
-    # description = "prowlarr";
-    # icon = "favicon";
-    # target = "newtab";
+  dashy.xeniarr.entry = [{
     title = "Prowlarr";
-    url = "https://prowlarr.nixos/";
-  }
-  ];
-  # };
+    url = "https://prowlarr.nixos/";}];
 }

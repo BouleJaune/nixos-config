@@ -26,6 +26,7 @@
       };
     };
   };
+
   dashy.xeniarr.entry = [{
     title = "slskd";
     url = "https://slskd.nixos/";}];

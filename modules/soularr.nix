@@ -42,6 +42,14 @@ in
         '';
       };
 
+      configDir = mkOption {
+        type = types.path;
+        default = "/etc/soularr";
+        description = ''
+          The directory where soularr config.ini is.
+        '';
+      };
+
     interval = mkOption {
       type = types.str;
       default = "1min";
@@ -66,6 +74,10 @@ in
 
   config = mkIf cfg.enable {
 
+    environment.etc."soularr/config.ini" = {
+      source = configFile;
+    };
+
     systemd.services.soularr = {
       after = [ "network.target" ];
       description = "Soularr";
@@ -73,10 +85,10 @@ in
 
       serviceConfig = {
         User = "soularr";
-        ExecStartPre = ''
-          /run/current-system/sw/bin/cp -u ${configFile} /var/lib/soularr/config.ini
-        '';
-        ExecStart = "${getExe cfg.package} --config-dir /var/lib/soularr";
+        # ExecStartPre = ''
+        #   /run/current-system/sw/bin/cp -u ${configFile} /var/lib/soularr/config.ini
+        # '';
+        ExecStart = "${getExe cfg.package} --config-dir ${cfg.configDir} --var-dir ${cfg.dataDir}";
         UMask = "002";
         StateDirectory = "soularr";
       };
@@ -98,7 +110,6 @@ in
         group = "music";
         isSystemUser = true;
       };
-      #groups.soularr = { };
     };
 
   services.soularr.settings = {
@@ -116,7 +127,6 @@ in
     Lidarr = {
       disable_sync = mkDefault "False";
     };
-
 
     "Search Settings" = {
       search_timeout = mkDefault 5000;
