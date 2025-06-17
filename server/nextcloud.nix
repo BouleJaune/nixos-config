@@ -6,6 +6,10 @@
 # jwt pass et admin pass => sops
 # option dépréciée
 
+dashy.services.entry = [{
+   title = "Nextcloud";
+   url = "https://nextcloud.nixos/";}];
+
 
 services.onlyoffice = {
   enable = true;
@@ -54,7 +58,7 @@ services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
 nixpkgs.config.allowUnfreePredicate = pkg:
   builtins.elem (lib.getName pkg) [ "corefonts" ];
 
-fonts.fonts = with pkgs; [
+fonts.packages = with pkgs; [
   corefonts
 ];
 
@@ -81,10 +85,12 @@ services.nextcloud = {
     inherit onlyoffice;
 
   };
-
+  
+  settings = {
+    overwriteprotocol = "https";
+    default_phone_region = "FR";
+    };
   config = {
-    overwriteProtocol = "https";
-    defaultPhoneRegion = "FR";
     dbtype = "sqlite";
     adminuser = "admin";
     adminpassFile = "/etc/nixos/pass";

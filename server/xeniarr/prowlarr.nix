@@ -11,4 +11,5 @@
   dashy.xeniarr.entry = [{
     title = "Prowlarr";
     url = "https://prowlarr.nixos/";}];
+
 }

@@ -3,6 +3,7 @@
 {
 imports = [
 ./dashy.nix
+./slskd.nix
 ./media.nix
 ./network.nix
 ./services-divers.nix

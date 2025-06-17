@@ -9,7 +9,7 @@ with lib;
 let
 
   cfg = config.services.soularr;
-  soularrPackage = pkgs.callPackage ../../packages/soularr.nix {};
+  soularrPackage = pkgs.callPackage ../packages/soularr.nix {};
   settingsFormat = pkgs.formats.ini {};
   configFile = settingsFormat.generate "config.ini" cfg.settings;
 in

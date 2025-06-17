@@ -58,7 +58,7 @@
     recommendedGzipSettings = true;
     virtualHosts = {
 
-      "default" = {
+      "default.nixos" = {
         default = true;
         redirectCode = 300;
         enableACME = true;
@@ -91,21 +91,14 @@
         };
       };
 
-      "torrent.nixos".locations."/" = {
-        proxyPass = "http://127.0.0.1:8080";
-        extraConfig = ''
-        proxy_set_header   X-Forwarded-Host  http://$host;
-        '';
-       };
-
-       "poker-planning.boulejaune.com" = {
-          locations."/" = {proxyPass = "http://127.0.0.1:8015";
-	      proxyWebsockets = true;
+      "torrent.nixos" = {
+        enableACME = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8080";
           extraConfig = ''
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header Host $host;
-              '';
-            };
+          proxy_set_header   X-Forwarded-Host  http://$host;
+          '';
+         };
       };
 
        "wgui.nixos" = {
@@ -131,33 +124,18 @@
           locations."/" = {proxyPass = "https://127.0.0.1:3010";};
       };
 
-      "adguard.nixos-vpn".locations."/" = {
-        proxyPass = "http://127.0.0.1:3000";
-        extraConfig = ''
-        proxy_set_header   X-Forwarded-Host  http://$host;
-        proxy_set_header   X-Real-IP   $remote_addr;
-        '';
-        proxyWebsockets = true;
+      "adguard.nixos" = {
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:3000";
+          extraConfig = ''
+          proxy_set_header   X-Forwarded-Host  http://$host;
+          proxy_set_header   X-Real-IP   $remote_addr;
+          '';
+          proxyWebsockets = true;
+        };
       };
-
-      # "onlyoffice.nixos".locations."/" = {
-      #   proxyPass = "http://127.0.0.1:3018";
-      #   extraConfig = ''
-      #   proxy_set_header   X-Forwarded-Host  http://$host;
-      #   proxy_set_header   X-Real-IP   $remote_addr;
-      #   '';
-      #   proxyWebsockets = true;
-      # };
-      
-      "adguard.nixos".locations."/" = {
-        proxyPass = "http://127.0.0.1:3000";
-        extraConfig = ''
-        proxy_set_header   X-Forwarded-Host  http://$host;
-        proxy_set_header   X-Real-IP   $remote_addr;
-        '';
-        proxyWebsockets = true;
-      };
-
     };
 
   };
@@ -167,4 +145,8 @@
     port = 5012;
   };
   
+
+  systemd.services."acme-adguard.nixos".enable = false;
+  systemd.timers."acme-adguard.nixos".enable = false;
+
 }

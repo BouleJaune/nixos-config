@@ -45,18 +45,13 @@
     };
   };
 
-  # # rootless this
-  # virtualisation.oci-containers.containers = {
-  #   "onlyoffice" = {
-  #     image = "onlyoffice/documentserver:8.2";
-  #     ports = ["127.0.0.1:3018:80"];
-  #     volumes = ["onlyoffice-data:/var/www/onlyoffice/Data" "onlyoffice-log:/var/log/onlyoffice"];
-  #     autoStart = true;
-  #     # podman.user = "onlyoffice";
-  #     };
-  #   };
-  #
   # rootless this
+  # users.users.kanboard = {
+  #   isSystemUser =  true;
+  #   group = "kanboard";
+  # };
+  # users.groups.kanboard = {};
+
   virtualisation.oci-containers.containers = {
     "kanboard" = {
       image = "docker.io/kanboard/kanboard:latest";

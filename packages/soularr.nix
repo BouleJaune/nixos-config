@@ -12,20 +12,13 @@ python3Packages.buildPythonPackage rec {
     version = "1.0";
     pyproject = false;
 
-    # src = fetchFromGitHub {
-    #     owner = "mrusse";
-    #     repo = "soularr";
-    #     rev = "main";
-    #     hash = "sha256-6qdkuB0JqleTq0I67UbsOdpoa8zcpD0PDiTISYQvcLQ=";
-    # };
-    #
     src = fetchFromGitHub {
         owner = "mrusse";
         repo = "soularr";
-        rev = "dev";
+        rev = "main";
         hash = "sha256-DcGROC/67KTbK/IIEu0sDTWtQ0Z9+a+6ex0yYNRDcCc=";
     };
-
+    
     dependencies =  [
         python3Packages.music-tag
         python3Packages.pyarr
