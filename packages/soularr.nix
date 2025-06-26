@@ -16,7 +16,7 @@ python3Packages.buildPythonPackage rec {
         owner = "mrusse";
         repo = "soularr";
         rev = "main";
-        hash = "sha256-DcGROC/67KTbK/IIEu0sDTWtQ0Z9+a+6ex0yYNRDcCc=";
+        hash = "sha256-zwYwwGwIgw8LPrk04UxUW2Wl6l42mcFa1QKmYdZL0JM=";
     };
     
     dependencies =  [

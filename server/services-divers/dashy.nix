@@ -1,6 +1,5 @@
-{config, lib, ...}:
+{config, pkgs, lib, ...}:
 
-# dashy
 {
   services.dashy = {
     virtualHost.enableNginx = true;
@@ -8,8 +7,14 @@
     enable = true;
   };
 
+  services.nginx.virtualHosts."dashy.nixos" = {
+    forceSSL = true;
+    enableACME = true;
+  };
+  
   services.dashy.settings = {
     appConfig = {
+      startingView = "minimal";
       cssThemes = [
         "example-theme-1"
           "example-theme-2"
@@ -19,7 +24,7 @@
       theme = "thebe";
     };
     pageInfo = {
-      description = "My Awesome Dashboard";
+      description = "NixOS Home Server Dashboard";
       navLinks = [
       {
         path = "/";
@@ -33,11 +38,21 @@
       displayData = {
         collapsed = false;
         cols = 2;
-        customStyles = "border: 2px dashed red;";
+        #customStyles = "border: 2px dashed red;";
         itemSize = "large";
       };
       items =  config.dashy.xeniarr.entry;
       name = "Xeniarr";
+    }
+    {
+      displayData = {
+        collapsed = false;
+        cols = 2;
+        #customStyles = "border: 2px dashed red;";
+        itemSize = "large";
+      };
+      items =  config.dashy.services.entry;
+      name = "Services";
     }
     ];
   };

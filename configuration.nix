@@ -17,8 +17,13 @@
     secrets.xenio-pwd= {
       neededForUsers = true;
     };
-    #secrets.slskd-apikey = {};
     secrets.slskd-env = {};
+    secrets.natpmp-qbit-env = {};
+    secrets.nextcloud-jwt = {
+      owner = config.systemd.services.onlyoffice-docservice.serviceConfig.User;
+    };
+    secrets.nextcloud-admin = {};
+    secrets.qbitorrent-exporter = {};
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -80,6 +85,7 @@
 # List packages installed in system profile. 
   environment.systemPackages = with pkgs; [
     wget
+    smartmontools
     avrdude
     tmux
     docker
@@ -90,10 +96,19 @@
     # secret management cli
     age
     sops
+    libnatpmp
+    tree
+    neovim
   ];
+
+environment = { variables = { EDITOR = "nvim"; SYSTEMD_EDITOR = "nvim"; VISUAL = "nvim"; }; }; 
+
 
 # VSC server patch
 programs.nix-ld.enable = true;
+
+# neovim
+programs.neovim.defaultEditor = true;
 
 # git
   programs.git = {
@@ -116,6 +131,12 @@ programs.nix-ld.enable = true;
   system.autoUpgrade = {
     enable = true;
     allowReboot = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L"
+      ];
     rebootWindow = { lower = "01:00"; 
                      upper = "05:00"; };
     };
@@ -128,10 +149,6 @@ programs.nix-ld.enable = true;
     };
   };
 
-# Copy the NixOS configuration file and link it from the resulting system
-# (/run/current-system/configuration.nix). This is useful in case you
-# accidentally delete configuration.nix.
-# system.copySystemConfiguration = true;
 
 # This value determines the NixOS release from which the default
 # settings for stateful data, like file locations and database versions

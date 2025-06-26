@@ -1,9 +1,29 @@
 { config, pkgs, ... }:
 
 {
+  
+  # ip rule add from 10.2.0.2/32 lookup 42
+  # ajout table 42 et enlever dns dans fichier proton
+  # ip route add 10.2.0.1 dev wg-proton
+  networking.wg-quick.interfaces.wg-proton = {
+    autostart = true;
+    configFile = "/etc/wireguard/wg-proton.conf"; # [TODO] change  
+  };
 
+  dashy.services.entry = [
+    { title = "Home Assistant";
+    url = "https://hass.nixos/";}
+    { title = "Wireguard-ui";
+    url = "https://wgui.nixos/";}
+    { title = "Navidrome";
+    url = "https://navidrome.nixos/";}
+    { title = "Adguard Home";
+    url = "https://adguard.nixos/";}
+    ];
+
+  networking.firewall.trustedInterfaces = [ "podman0" ];
   networking.firewall = {
-    enable = false;
+    enable = true;
     allowedTCPPorts = [ 443 80 53 ];
     allowedUDPPorts = [ 53 51820 ];
   };
@@ -11,7 +31,7 @@
   networking.nat.enable = true;
   networking.nat.externalInterface = "enp8s0";
   networking.nat.internalInterfaces = [ "wg0" ];
-   
+
   networking.wg-quick.interfaces.wg0.configFile = config.services.wireguard-ui.configDir + "/wg0.conf";
 
 # Set static if and default gateway
@@ -91,16 +111,6 @@
         };
       };
 
-      "torrent.nixos" = {
-        enableACME = true;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8080";
-          extraConfig = ''
-          proxy_set_header   X-Forwarded-Host  http://$host;
-          '';
-         };
-      };
-
        "wgui.nixos" = {
         enableACME = true;
         forceSSL = true;
@@ -115,7 +125,10 @@
 
        "octoprint.nixos" = {
         enableACME = true;
-        locations."/" = {proxyPass = "http://127.0.0.1:5000";};
+        forceSSL = true;
+        locations."/" = {proxyPass = "http://127.0.0.1:5000";
+          proxyWebsockets = true; 
+        };
       };
 
        "kanboard.nixos" = {
@@ -145,8 +158,5 @@
     port = 5012;
   };
   
-
-  systemd.services."acme-adguard.nixos".enable = false;
-  systemd.timers."acme-adguard.nixos".enable = false;
 
 }

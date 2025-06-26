@@ -2,16 +2,12 @@
 
 {
 imports = [
-./dashy.nix
-./slskd.nix
-./media.nix
-./network.nix
-./services-divers.nix
-./xeniarr/prowlarr.nix
-./xeniarr/radarr.nix
-./xeniarr/soularr.nix
-./xeniarr/lidarr.nix
-./jellyfin.nix
-./nextcloud.nix
+./services-divers/default.nix
+./download/default.nix
+./monitoring/default.nix
+./xeniarr/default.nix
+./media/default.nix
+./nextcloud/nextcloud.nix
+./network/network.nix
 ];
 }

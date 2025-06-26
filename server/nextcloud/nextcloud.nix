@@ -2,9 +2,6 @@
 
 {
 
-# [TODO]
-# jwt pass et admin pass => sops
-# option dépréciée
 
 dashy.services.entry = [{
    title = "Nextcloud";
@@ -15,11 +12,12 @@ services.onlyoffice = {
   enable = true;
   hostname = "onlyoffice.nixos";
   port = 8984;
-  jwtSecretFile = "/etc/nixos/pass";
-  };
+  # jwtSecretFile = "/etc/nixos/pass";
+  jwtSecretFile = config.sops.secrets.nextcloud-jwt.path;
+};
 
 
-# ajout de la putain d'option dans le local.json en preexec start 2 d'onlyoffice
+# ajout de la putain d'option dans le local.json en preexec start 2 d'onlyoffice pour sssl selfsigned
 # services.CoAuthoring.requestDefaults.rejectUnauthorized: false
 systemd.services.onlyoffice-docservice =
   let
@@ -93,7 +91,7 @@ services.nextcloud = {
   config = {
     dbtype = "sqlite";
     adminuser = "admin";
-    adminpassFile = "/etc/nixos/pass";
+    adminpassFile = config.sops.secrets.nextcloud-admin.path;
   };
 };
 }

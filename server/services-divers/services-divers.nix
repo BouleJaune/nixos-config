@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+
    #octoprint
    nixpkgs.overlays = [(self: super: {
      octoprint = super.octoprint.override {
@@ -26,8 +27,7 @@
     openFirewall = true;
     plugins = plugins: with plugins; [ themeify 
     ];
-        };
-
+  };
 
   services.dolibarr = {
     enable = true;
@@ -35,7 +35,18 @@
     nginx.serverName = "dolibarr.nixos";
     nginx.enableACME = true;
     nginx.forceSSL = true;
-        };
+  };
+
+  dashy.services.entry = [
+    { title = "Octoprint";
+    url = "https://octoprint.nixos/";}
+    { title = "Kanboard";
+    url = "https://kanboard.nixos/";}
+    { title = "Dolibarr";
+    url = "https://dolibarr.nixos/";}
+    { title = "Vaultwarden";
+    url = "https://vault.nixos/";}
+    ];
 
   services.vaultwarden = {
     enable = true;
@@ -45,13 +56,7 @@
     };
   };
 
-  # rootless this
-  # users.users.kanboard = {
-  #   isSystemUser =  true;
-  #   group = "kanboard";
-  # };
-  # users.groups.kanboard = {};
-
+  # rootless
   virtualisation.oci-containers.containers = {
     "kanboard" = {
       image = "docker.io/kanboard/kanboard:latest";
@@ -59,7 +64,7 @@
       volumes = ["kanboard_data:/var/www/app/data"];
       autoStart = true;
       # podman.user = "kanboard";
-      };
     };
+  };
 
 }

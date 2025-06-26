@@ -3,21 +3,20 @@
 with lib;
 let
 	cfg = config.services.wireguard-ui;
-
 in
 {
 options = {
-	services.wireguard-ui = {
+  services.wireguard-ui = {
 
-	enable = mkEnableOption	"wireguard-ui";
-	package = mkOption {
-		type = types.package;
-		default = pkgs.wireguard-ui;
-		description = "Package to use for wireguard-ui";
-	};
-	
-	
-	address = mkOption {
+    enable = mkEnableOption	"wireguard-ui";
+    package = mkOption {
+      type = types.package;
+      default = pkgs.wireguard-ui;
+      description = "Package to use for wireguard-ui";
+    };
+
+
+    address = mkOption {
       type = types.str;
       default = "0.0.0.0";
       description = "Address on which to listen";
@@ -53,7 +52,7 @@ options = {
     systemd.services.wireguard-ui = {
       description = "WireGuard UI Web Interface";
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
+     after = [ "network.target" ];
 
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/wireguard-ui  --bind-address ${cfg.address}:${toString cfg.port}";

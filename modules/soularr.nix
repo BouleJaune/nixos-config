@@ -42,14 +42,6 @@ in
         '';
       };
 
-      configDir = mkOption {
-        type = types.path;
-        default = "/etc/soularr";
-        description = ''
-          The directory where soularr config.ini is.
-        '';
-      };
-
     interval = mkOption {
       type = types.str;
       default = "1min";
@@ -85,10 +77,7 @@ in
 
       serviceConfig = {
         User = "soularr";
-        # ExecStartPre = ''
-        #   /run/current-system/sw/bin/cp -u ${configFile} /var/lib/soularr/config.ini
-        # '';
-        ExecStart = "${getExe cfg.package} --config-dir ${cfg.configDir} --var-dir ${cfg.dataDir}";
+        ExecStart = "${getExe cfg.package} --config-dir /etc/soularr/ --var-dir ${cfg.dataDir} --no-lock-file";
         UMask = "002";
         StateDirectory = "soularr";
       };

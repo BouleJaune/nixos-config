@@ -28,23 +28,6 @@
 
 
 
-# Qbitorroent headless
-  users.users.qbit = {
-    isSystemUser = true;
-    createHome = true;
-    home = "/var/lib/qbittorrent";
-    extraGroups = [ "music" "video" ];
-    group = "video"; };
-  systemd = { 
-    packages = [pkgs.qbittorrent-nox];
-    services."qbittorrent-nox@qbit" = {
-      enable = true;
-      overrideStrategy = "asDropin";
-      wantedBy = ["multi-user.target"];
-      serviceConfig.UMask = "002";
-    };
-  };
-
   # Music server
   users.users.navidrome = {
     isSystemUser = true;
