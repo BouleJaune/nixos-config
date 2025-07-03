@@ -17,6 +17,8 @@
       overrideStrategy = "asDropin";
       wantedBy = ["multi-user.target"];
       serviceConfig.UMask = "002";
+      #serviceConfig.ExecStartPre="${pkgs.coreutils-full}/bin/sleep 300";
+      #serviceConfig.TimeoutStartSec="500";
     };
   };
 

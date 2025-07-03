@@ -28,6 +28,11 @@
 
 
 
+  dashy.services.entry = [
+    { title = "Navidrome";
+    url = "https://navidrome.nixos/";}
+    ];
+
   # Music server
   users.users.navidrome = {
     isSystemUser = true;

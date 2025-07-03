@@ -20,7 +20,7 @@
       }];}
     { job_name = "qbittorrent_exporter";
       static_configs = [{
-	targets = [ "127.0.0.1:8091" ];
+	targets = [ "127.0.0.1:8000" ];
       }];}
     ];
   };
@@ -35,13 +35,23 @@
     };
   };
 
-  # TODO rootless
+  users.users.qbitorrent-exporter = {
+    isNormalUser = true; 
+    useDefaultShell = false;
+    home = "/var/lib/qbitorrent-exporter";
+    group = "qbitorrent-exporter";
+  };
+  users.groups.qbitorrent-exporter = {};
+
+
   virtualisation.oci-containers.containers = {
     "prometheus-qbitorrent-exporter" = {
       image = "ghcr.io/esanchezm/prometheus-qbittorrent-exporter";
-      ports = ["127.0.0.1:8091:8000"];
+      #ports = ["127.0.0.1:8091:8000"]; inutile en network host
       environmentFiles = [ config.sops.secrets.qbitorrent-exporter.path ];
+      extraOptions = ["--network=host"];
       autoStart = true;
+      podman.user = "qbitorrent-exporter";
     };
   };
 

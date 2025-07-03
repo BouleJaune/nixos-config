@@ -56,15 +56,23 @@
     };
   };
 
-  # rootless
+  users.users.kanboard = {
+    useDefaultShell = false;
+    isNormalUser = true; 
+    home = "/var/lib/kanboard";
+    group = "kanboard";
+  };
+  users.groups.kanboard = {};
+  
   virtualisation.oci-containers.containers = {
     "kanboard" = {
       image = "docker.io/kanboard/kanboard:latest";
       ports = ["127.0.0.1:3010:443"];
-      volumes = ["kanboard_data:/var/www/app/data"];
+      volumes = ["/var/lib/kanboard/data:/var/www/app/data"];
       autoStart = true;
-      # podman.user = "kanboard";
+      podman.user = "kanboard";
     };
   };
 
+  
 }

@@ -17,13 +17,21 @@
     secrets.xenio-pwd= {
       neededForUsers = true;
     };
-    secrets.slskd-env = {};
+    secrets.slskd-env = {
+      restartUnits = [ "slsk.service" ];
+    };
     secrets.natpmp-qbit-env = {};
     secrets.nextcloud-jwt = {
       owner = config.systemd.services.onlyoffice-docservice.serviceConfig.User;
+      restartUnits = [ "onlyoffice-docservice.service" ];
     };
-    secrets.nextcloud-admin = {};
-    secrets.qbitorrent-exporter = {};
+    secrets.nextcloud-admin = {
+      restartUnits = [ "phpfpm-nextcloud.service" ];
+    };
+    secrets.qbitorrent-exporter = {
+      owner = config.virtualisation.oci-containers.containers."prometheus-qbitorrent-exporter".podman.user ;
+      restartUnits = [ "podman-prometheus-qbitorrent-exporter" ];
+    };
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -126,6 +134,26 @@ programs.neovim.defaultEditor = true;
     settings.PasswordAuthentication = true;
     openFirewall = true;
   };
+
+ #podman bug
+ environment.etc."tmpfiles.d/podman.conf".text = ''
+  # /tmp/podman-run-* directory can contain content for Podman containers that have run
+  # for many days. This following line prevents systemd from removing this content.
+  x /tmp/podman-run-*
+  # comment # x /tmp/storage-run-*
+  # comment # x /tmp/containers-user-*
+  x /tmp/run-*/libpod
+  D! /var/lib/containers/storage/tmp 0700 root root
+  D! /var/lib/cni/networks
+  # Remove /var/tmp/container_images* podman temporary directories on each
+  # boot which are created when pulling or saving images.
+  R! /var/tmp/container_images*
+  #remove storage-run to fix podman bug: https://github.com/containers/podman/discussions/23193#discussioncomment-11523712
+  R! /tmp/storage-run-*/containers/
+  R! /tmp/storage-run-*/libpod/tmp/
+  R! /tmp/containers-user-*/containers
+  R! /tmp/podman-run-*/libpod/tmp
+  '';
 
 # Automatic upgrades avec reboot si nécessaire
   system.autoUpgrade = {

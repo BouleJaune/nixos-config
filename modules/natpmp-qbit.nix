@@ -50,7 +50,6 @@ in {
     systemd.timers.natpmpQbit = {
       description = "Run NAT-PMP port update every 30s";
       wantedBy = [ "timers.target" ];
-     # wants = [ "natpmpQbit.service" ];
       timerConfig = {
         OnBootSec = "50s";
         OnUnitInactiveSec = "30s";

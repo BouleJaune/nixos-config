@@ -2,8 +2,9 @@
 
 {
   
+  # conf proton:
   # ip rule add from 10.2.0.2/32 lookup 42
-  # ajout table 42 et enlever dns dans fichier proton
+  # ajout table 42 et enlever dns
   # ip route add 10.2.0.1 dev wg-proton
   networking.wg-quick.interfaces.wg-proton = {
     autostart = true;
@@ -15,13 +16,11 @@
     url = "https://hass.nixos/";}
     { title = "Wireguard-ui";
     url = "https://wgui.nixos/";}
-    { title = "Navidrome";
-    url = "https://navidrome.nixos/";}
     { title = "Adguard Home";
     url = "https://adguard.nixos/";}
     ];
 
-  networking.firewall.trustedInterfaces = [ "podman0" ];
+  networking.firewall.trustedInterfaces = [ "wg-proton" ];
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 443 80 53 ];
