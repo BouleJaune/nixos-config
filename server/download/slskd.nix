@@ -4,7 +4,7 @@
 
   # TODO scalpel api key
 
-  dashy.xeniarr.entry = [{
+  dashy.services.entry = [{
     title = "slskd";
     url = "https://slskd.nixos/";}];
  

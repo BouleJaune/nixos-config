@@ -73,6 +73,4 @@
       podman.user = "kanboard";
     };
   };
-
-  
 }

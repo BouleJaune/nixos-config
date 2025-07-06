@@ -36,8 +36,8 @@
   };
 
 
-  dashy.xeniarr.entry = [{
-    title = "Qbitorrent";
+  dashy.services.entry = [{
+    title = "Qbittorrent";
     url = "https://torrent.nixos/";}];
 
 }

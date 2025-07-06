@@ -6,5 +6,6 @@ imports = [
 ./soularr.nix
 ./wireguard-ui.nix
 ./natpmp-qbit.nix
+./donetick.nix
 ];
 }

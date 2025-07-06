@@ -71,7 +71,7 @@
     listenAddress = "127.0.0.1";
     };
 
-  dashy.services.entry = [
+  dashy.monitoring.entry = [
   { title = "Prometheus";
     url = "https://prometheus.nixos/";}
   ];

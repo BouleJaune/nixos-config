@@ -54,6 +54,16 @@
       items =  config.dashy.services.entry;
       name = "Services";
     }
+    {
+      displayData = {
+        collapsed = false;
+        cols = 2;
+        #customStyles = "border: 2px dashed red;";
+        itemSize = "large";
+      };
+      items =  config.dashy.monitoring.entry;
+      name = "Monitoring";
+    }
     ];
   };
   

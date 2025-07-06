@@ -33,6 +33,13 @@ in
 				uid = "prome";
 				jsonData.tlsSkipVerify = true;
 			}
+			{
+				name = "Loki";
+				type = "loki";
+				uid = "loki";
+				url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}";
+				jsonData.tlsSkipVerify = true;
+			}
 			];
 		};
 	};
@@ -53,7 +60,7 @@ in
 		};
 	};
 
-	dashy.services.entry = [
+	dashy.monitoring.entry = [
 	{ title = "Grafana";
 		url = "https://grafana.nixos/";}
 	];
