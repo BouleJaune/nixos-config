@@ -6,6 +6,11 @@ sops-nix
 
 
 ---
+# Not in nix conf
+- HASS (docker compose)
+- Wireguard conf files
+- Adguard mutable conf
+- *arrs webui conf
 
 TODO:
 - modularisation 
@@ -13,6 +18,10 @@ TODO:
 - sops wireguard
 - Adguard mutable false
 - MediaManager declarative replace arr ou arr declarative
+- Sops pas que dans conf.nix
+- selfhosted overleaf
+- nextcloud => OCIS
+- monitoring
 
 ## Media
 - Jellyfin
@@ -68,6 +77,38 @@ TODO switch to OCIS
 TODO:
 - Give promtail user right to read logs
 - monitoring update nightly
+- grafana / loki analytics stop
 
 Logs: 
 - HASS
+
+
+Main dashboard:
+- % FS OK
+- % RAM, CPU load OK
+- Zpool status OK
+- qbit firewalled and connected OK
+- services failed OK
+- smartctl info OK
+
+
+- exportarr-sonarr/radarr/lidarr
+
+
+Dashboard import:
+- qbit
+- smartctl
+- node export
+- zfs
+
+Alertes: 
+- HASS logs, wizer uptime
+- Uptime services
+- Firewalled qbit
+- zpool status
+- temp > 55
+- Warning 80% FS
+- Warning RAM 90%
+- blackout nuit sur alertes
+- nix updates
+- services : nix-gc and nixos-upgrade

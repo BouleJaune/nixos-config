@@ -50,6 +50,12 @@ in
 			user = "grafana";
 		};
 
+	environment.etc."grafana/dashboards/nixos-server.json" = {
+			source = ./. + "/grafana-dashboards/nixos-server.json";
+			group = "grafana";
+			user = "grafana";
+		};
+
 	services.nginx.virtualHosts."grafana.nixos" = {
 		forceSSL = true;
 		enableACME = true;

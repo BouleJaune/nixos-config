@@ -165,7 +165,7 @@ programs.neovim.defaultEditor = true;
     allowReboot = true;
     flake = inputs.self.outPath;
     flags = [
-      "--update-input"
+      #"--update-input"
       "nixpkgs"
       "-L"
       ];
@@ -180,7 +180,6 @@ programs.neovim.defaultEditor = true;
       options = "--max-freed 1G --delete-older-than 7d";
     };
   };
-
 
 # This value determines the NixOS release from which the default
 # settings for stateful data, like file locations and database versions
