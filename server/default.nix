@@ -8,7 +8,6 @@ imports = [
 ./xeniarr/default.nix
 ./media/default.nix
 ./nextcloud/nextcloud.nix
-./network/network.nix
-#./network/disable-acme.nix
+./network/default.nix
 ];
 }
