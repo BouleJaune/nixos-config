@@ -109,7 +109,7 @@ in
       };
 
       Slskd = {
-        delete_searches = mkDefault "False";
+        delete_searches = mkDefault "True";
         stalled_timeout = mkDefault 3600;
       };
 

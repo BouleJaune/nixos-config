@@ -3,11 +3,8 @@
 let
   slskdConf = config.services.slskd.settings;
   lidarrPort = config.services.lidarr.settings.server.port;
-
 in
 {
-
-
   services.soularr = {
     enable = true;
     settings = {
@@ -21,7 +18,7 @@ in
         host_url = "http://127.0.0.1:${toString slskdConf.web.port}";
         url_base = "/";
         download_dir = slskdConf.directories.downloads;
-        stalled_timeout = "1800";
+        stalled_timeout = "7200";
       };
     };
   };

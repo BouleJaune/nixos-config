@@ -11,15 +11,19 @@ in
 		# Si besoin de plugins:
 		# declarativePlugins = with pkgs.grafanaPlugins; [ ... ];
 		enable = true;
-		settings.server = {
-			http_port = 3451;
-			domain = "grafana.nixos";
+		settings = {
+			analytics = {
+				feedback_links_enabled = false;
+				reporting_enabled = false;
+				};
+			server = {
+				http_port = 3451;
+				domain = "grafana.nixos";
+			};
 		};
 
 		provision = {
 			enable = true;
-
-			# sed le datasource en "prome" dans les json
 			dashboards.settings.providers = [{
 				name = "Dashboards";
 				options.path = "/etc/grafana/dashboards";
@@ -31,13 +35,6 @@ in
 				type = "prometheus";
 				url = "http://127.0.0.1:${toString config.services.prometheus.port}";
 				uid = "prome";
-				jsonData.tlsSkipVerify = true;
-			}
-			{
-				name = "Loki";
-				type = "loki";
-				uid = "loki";
-				url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}";
 				jsonData.tlsSkipVerify = true;
 			}
 			];

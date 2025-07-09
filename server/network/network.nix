@@ -12,8 +12,8 @@
   };
 
   dashy.services.entry = [
-    { title = "Home Assistant";
-    url = "https://hass.nixos/";}
+    # { title = "Home Assistant";
+    # url = "https://hass.nixos/";}
     { title = "Wireguard-ui";
     url = "https://wgui.nixos/";}
     { title = "Adguard Home";
@@ -90,25 +90,25 @@
         locations."/" = {proxyPass = "http://127.0.0.1:8222"; 
         };};
 
-      "hass.nixos" = { 
-        enableACME = true;
-        forceSSL = true;
-            extraConfig = ''
-            set $test 0;
-        if ( $host != "hass.nixos" ){
-            set $test 1;
-        }
-        if ( $host != "www.hass.nixos" ){
-            set $test 1$test;
-        }
-        if ( $test = 11 ){
-            return 444; #CONNECTION CLOSED WITHOUT RESPONSE
-        }
-        '';
-        locations."/" = {proxyPass = "http://127.0.0.1:8123";
-        proxyWebsockets = true;
-        };
-      };
+      # "hass.nixos" = { 
+      #   enableACME = true;
+      #   forceSSL = true;
+      #       extraConfig = ''
+      #       set $test 0;
+      #   if ( $host != "hass.nixos" ){
+      #       set $test 1;
+      #   }
+      #   if ( $host != "www.hass.nixos" ){
+      #       set $test 1$test;
+      #   }
+      #   if ( $test = 11 ){
+      #       return 444; #CONNECTION CLOSED WITHOUT RESPONSE
+      #   }
+      #   '';
+      #   locations."/" = {proxyPass = "http://127.0.0.1:8123";
+      #   proxyWebsockets = true;
+      #   };
+      # };
 
        "wgui.nixos" = {
         enableACME = true;

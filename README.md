@@ -8,12 +8,13 @@ sops-nix
 ---
 # Not in nix conf
 - HASS (docker compose)
+Pour supervision des logs:
+`setfacl -m u:promtail:x /home/xenio/jarvis/homeassistant/home-assistant.log`
 - Wireguard conf files
 - Adguard mutable conf
 - *arrs webui conf
 
 TODO:
-- modularisation 
 - user/group pour natpmp updater, wgui (+env file)
 - sops wireguard
 - Adguard mutable false
@@ -22,6 +23,7 @@ TODO:
 - selfhosted overleaf
 - nextcloud => OCIS
 - monitoring
+- backups /var /bigpool important, wg conf, clé privée sops
 
 ## Media
 - Jellyfin
@@ -68,41 +70,27 @@ TODO switch to OCIS
 ## Monitoring
 - Grafana
 - Alertmanager
-- Loki
-- Promtail
 - ntfy.sh
+- Alertmanager-ntfy
 - Prometheus
 - Exporters : node, qbit, zfs, smartctl
 
+
 TODO:
-- Give promtail user right to read logs
-- monitoring update nightly
-- grafana / loki analytics stop
-
-Logs: 
-- HASS
-
-
-Main dashboard:
-- % FS OK
-- % RAM, CPU load OK
-- Zpool status OK
-- qbit firewalled and connected OK
-- services failed OK
-- smartctl info OK
-
-
 - exportarr-sonarr/radarr/lidarr
+- Ajout last update/reboot/nixos version
+- Ajout uptime wiser (ping exporter ?)
 
 
-Dashboard import:
-- qbit
-- smartctl
-- node export
-- zfs
+Dashboards:
+- Nixos server
+% FS, RAM, CPU, zpool status, qbit firewalled/connected, services failed, smartctl state
+- Smartctl dashboard
+- Qbitorrent dashboard
+- Node exporter full dashboard
 
 Alertes: 
-- HASS logs, wizer uptime
+- HASS logs, wiser uptime
 - Uptime services
 - Firewalled qbit
 - zpool status

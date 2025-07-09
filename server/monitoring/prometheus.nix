@@ -18,10 +18,20 @@
       static_configs = [{
 	targets = [ "127.0.0.1:9633" ];
       }];}
+    { job_name = "ping_exporter";
+      static_configs = [{
+	targets = [ "127.0.0.1:9427" ];
+      }];}
     { job_name = "qbittorrent_exporter";
       static_configs = [{
 	targets = [ "127.0.0.1:8000" ];
       }];}
+    ];
+    alertmanagers = [
+    {
+      scheme = "http";
+      static_configs = [{ targets = [ "localhost:9093" ]; }];
+    }
     ];
   };
 
@@ -45,9 +55,9 @@
 
 
   virtualisation.oci-containers.containers = {
-    "prometheus-qbitorrent-exporter" = {
+    "prometheus_qbitorrent_exporter" = {
       image = "ghcr.io/esanchezm/prometheus-qbittorrent-exporter";
-      #ports = ["127.0.0.1:8091:8000"]; inutile en network host
+      #ports = ["127.0.0.1:8091:8000"]; #inutile en network host
       environmentFiles = [ config.sops.secrets.qbitorrent-exporter.path ];
       extraOptions = ["--network=host"];
       autoStart = true;
@@ -69,6 +79,15 @@
   services.prometheus.exporters.smartctl = {
     enable = true;
     listenAddress = "127.0.0.1";
+    };
+
+  # default port 9427
+  services.prometheus.exporters.ping = {
+    enable = true;
+    listenAddress = "127.0.0.1";
+    settings = {
+      targets = ["192.168.1.107"]; #WiserHeat
+      };
     };
 
   dashy.monitoring.entry = [

@@ -29,9 +29,13 @@
       restartUnits = [ "phpfpm-nextcloud.service" ];
     };
     secrets.qbitorrent-exporter = {
-      owner = config.virtualisation.oci-containers.containers."prometheus-qbitorrent-exporter".podman.user ;
-      restartUnits = [ "podman-prometheus-qbitorrent-exporter" ];
+      owner = config.virtualisation.oci-containers.containers."prometheus_qbitorrent_exporter".podman.user ;
+      restartUnits = [ "podman-prometheus_qbitorrent_exporter" ];
     };
+    # secrets.grafana-to-ntfy = {
+    #   owner = config.systemd.services.grafana-to-ntfy.serviceConfig.User;
+    #   restartUnits = [ "grafana-to-ntfy" ];
+    # };
     secrets.donetick-env = {
       owner = config.virtualisation.oci-containers.containers."donetick".podman.user ;
       restartUnits = [ "podman-donetick" ];
