@@ -1,0 +1,751 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: default
+      folder: Nixos
+      interval: 1m
+      rules:
+        - uid: cerjolpq7mx34e
+          title: Used space
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 10800
+                to: 0
+              datasourceUid: prome
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: prome
+                disableTextWrap: false
+                editorMode: code
+                expr: "100 * ((node_filesystem_size_bytes{mountpoint=~\"/$|/nix$|/var$|/boot$|/bigpool/media$\"} -\n  node_filesystem_free_bytes{mountpoint=~\"/$|/nix$|/var$|/boot$|/bigpool/media$\"} \n  )/ \n  node_filesystem_size_bytes{mountpoint=~\"/$|/nix$|/var$|/boot$|/bigpool/media$\"}\n)"
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{mountpoint}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 85
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+          panelId: 3
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+            __panelId__: "3"
+          isPaused: false
+          notification_settings:
+            receiver: ntfy
+        - uid: aerlf0tz39xc0b
+          title: Wiser Status
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: prome
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: prome
+                disableTextWrap: false
+                editorMode: builder
+                expr: floor(ping_loss_ratio{target="192.168.1.107"})
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                interval: ""
+                intervalMs: 15000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+          panelId: 11
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+            __panelId__: "11"
+          isPaused: false
+          notification_settings:
+            receiver: ntfy
+        - uid: eerlfa9xhsi68d
+          title: Services KO
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: prome
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: prome
+                disableTextWrap: false
+                editorMode: code
+                exemplar: false
+                expr: node_systemd_unit_state{name!="nixos-upgrade.service", name!~"acme.*", state="failed", name=~".*service"} == 1 OR on() vector(0)
+                format: table
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                useBackend: false
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+          panelId: 6
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+            __panelId__: "6"
+          isPaused: false
+          notification_settings:
+            receiver: ntfy
+        - uid: derlfdnrpzshsd
+          title: SMART STATUS
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: prome
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: prome
+                disableTextWrap: false
+                editorMode: builder
+                exemplar: false
+                expr: smartctl_device_smart_status
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{device}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                        type: ne
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+          panelId: 8
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+            __panelId__: "8"
+          isPaused: false
+          notification_settings:
+            receiver: ntfy
+        - uid: eerlffxifvh8gc
+          title: Qbit Firewalled
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: prome
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: prome
+                editorMode: code
+                expr: qbittorrent_connected{server="127.0.0.1:8080"} - qbittorrent_firewalled{server="127.0.0.1:8080"}
+                instant: false
+                interval: ""
+                intervalMs: 15000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                        type: ne
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+          panelId: 5
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+            __panelId__: "5"
+          isPaused: false
+          notification_settings:
+            receiver: ntfy
+        - uid: cerlfhea65gcga
+          title: Qbittorrent Status
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: prome
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: prome
+                disableTextWrap: false
+                editorMode: builder
+                expr: qbittorrent_up{server="127.0.0.1:8080"}
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                interval: ""
+                intervalMs: 15000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                        type: ne
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+          panelId: 4
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+            __panelId__: "4"
+          isPaused: false
+          notification_settings:
+            receiver: ntfy
+        - uid: eerlfj1cspe68d
+          title: Zpool Status
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: prome
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: prome
+                disableTextWrap: false
+                editorMode: code
+                exemplar: false
+                expr: zfs_pool_health
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{pool}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: ne
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+          panelId: 1
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+            __panelId__: "1"
+          isPaused: false
+          notification_settings:
+            receiver: ntfy
+        - uid: aerlfrpk9bsw0d
+          title: RAM Used
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: prome
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: prome
+                editorMode: code
+                exemplar: false
+                expr: (1 - (node_memory_MemAvailable_bytes{instance="localhost:9100", job="node"} / node_memory_MemTotal_bytes{instance="localhost:9100", job="node"})) * 100
+                format: time_series
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                step: 240
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 90
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+          panelId: 10
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+            __panelId__: "10"
+          isPaused: false
+          notification_settings:
+            receiver: ntfy
+        - uid: cerlftvfmdf5sd
+          title: Temperature
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: prome
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: prome
+                disableTextWrap: false
+                editorMode: builder
+                expr: smartctl_device_temperature
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{device}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 54
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+          panelId: 12
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: 162fca0a-fe6b-40d0-9e7f-5769ccf4dc79
+            __panelId__: "12"
+          isPaused: false
+          notification_settings:
+            receiver: ntfy
+

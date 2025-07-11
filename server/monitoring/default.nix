@@ -1,11 +1,10 @@
-
 {...}:
 
 {
 imports = [
 ./grafana.nix
 ./prometheus.nix
-./alertmanager.nix
+./grafana-alerts.nix
 ./ntfy.nix
 ];
 }

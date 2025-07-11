@@ -24,7 +24,7 @@
       }];}
     { job_name = "qbittorrent_exporter";
       static_configs = [{
-	targets = [ "127.0.0.1:8000" ];
+	targets = [ "127.0.0.1:8002" ];
       }];}
     ];
     alertmanagers = [
@@ -57,6 +57,7 @@
   virtualisation.oci-containers.containers = {
     "prometheus_qbitorrent_exporter" = {
       image = "ghcr.io/esanchezm/prometheus-qbittorrent-exporter";
+      environment = { EXPORTER_PORT = "8002";}; 
       #ports = ["127.0.0.1:8091:8000"]; #inutile en network host
       environmentFiles = [ config.sops.secrets.qbitorrent-exporter.path ];
       extraOptions = ["--network=host"];
