@@ -20,7 +20,9 @@ TODO:
 - selfhosted overleaf
 - nextcloud => OCIS
 - backups /var /bigpool important, wg conf, clé privée sops
+- Fin PR grafa-to-ntfy pour enlever fichier test empty `ntfyBAuthPass = "/etc/nixos/test";`
 
+# Services
 ## Media
 - Jellyfin
 - Navidrome
