@@ -10,7 +10,9 @@
     autostart = true;
     configFile = "/etc/wireguard/wg-proton.conf"; # [TODO] change  
   };
-
+  
+  networking.nameservers = [ "127.0.0.1" "::1" "9.9.9.9" ];
+  
   dashy.services.entry = [
     # { title = "Home Assistant";
     # url = "https://hass.nixos/";}
