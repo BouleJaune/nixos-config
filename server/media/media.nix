@@ -6,7 +6,7 @@
   users.groups.video = {};
 
   # samba server
-  services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
+  services.samba-wsdd.enable = true;
     services.samba = {
       enable = true;
       openFirewall = true;

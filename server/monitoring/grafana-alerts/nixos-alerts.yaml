@@ -628,7 +628,7 @@ groups:
                 conditions:
                     - evaluator:
                         params:
-                            - 90
+                            - 97
                             - 0
                         type: gt
                       operator:

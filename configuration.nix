@@ -96,6 +96,7 @@
 
 # List packages installed in system profile. 
   environment.systemPackages = with pkgs; [
+    restic
     wget
     smartmontools
     nixfmt-tree
@@ -171,7 +172,7 @@ programs.neovim.defaultEditor = true;
       "-L"
       ];
     rebootWindow = { lower = "01:00"; 
-                     upper = "05:00"; };
+                     upper = "02:00"; };
     };
 
 # Nettoyage auto

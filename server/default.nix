@@ -2,6 +2,7 @@
 
 {
 imports = [
+./backup/default.nix
 ./services-divers/default.nix
 ./download/default.nix
 ./monitoring/default.nix

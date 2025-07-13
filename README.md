@@ -20,7 +20,12 @@ TODO:
 - selfhosted overleaf
 - nextcloud => OCIS
 - backups /var /bigpool important, wg conf, clé privée sops
-- Fin PR grafa-to-ntfy pour enlever fichier test empty `ntfyBAuthPass = "/etc/nixos/test";`
+- Fin PR grafana-to-ntfy pour enlever fichier test empty `ntfyBAuthPass = "/etc/nixos/test";`
+- Revoir samba
+- autoscrub + report grafana + autosnapshot
+- vaultwarden backupdir
+- searxng
+
 
 # Services
 ## Media
@@ -64,13 +69,25 @@ TODO:
 - nextcloud
 - onlyoffice community
 
+## Backup
+- Restic
+- SMB share through wireguard tunnel
+- Daily incremental
+Backed up:
+- Home assistant daily sqlite dump + backup whole folder
+- `/var/backup`: mysql databases (dolibarr), vautwarden
+- `/var/lib` : dolibarr docs, donetick, jellyfin, kanboard, *arrs, qbitorrent
+- bigpool: documents
+
 ## Monitoring
 - Grafana
 - Alertmanager
 - ntfy.sh
 - Alertmanager-ntfy
 - Prometheus
-- Exporters : node, qbit, zfs, smartctl
+- Exporters : node, qbit, zfs, smartctl, restic
+
+
 
 Dashboards:
 - Nixos server

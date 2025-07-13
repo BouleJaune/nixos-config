@@ -18,6 +18,10 @@
       static_configs = [{
 	targets = [ "127.0.0.1:9633" ];
       }];}
+    { job_name = "restic_exporter";
+      static_configs = [{
+	targets = [ "127.0.0.1:8002" ];
+      }];}
     { job_name = "ping_exporter";
       static_configs = [{
 	targets = [ "127.0.0.1:9427" ];

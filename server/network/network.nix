@@ -26,14 +26,15 @@
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 443 80 53 ];
-    allowedUDPPorts = [ 53 51820 ];
+    allowedUDPPorts = [ 53 51820 51825 ];
   };
 
   networking.nat.enable = true;
   networking.nat.externalInterface = "enp8s0";
-  networking.nat.internalInterfaces = [ "wg0" ];
+  networking.nat.internalInterfaces = [ "wg0" "wg1" ];
 
   networking.wg-quick.interfaces.wg0.configFile = config.services.wireguard-ui.configDir + "/wg0.conf";
+  networking.wg-quick.interfaces.wg1.configFile = config.services.wireguard-ui.configDir + "/wg1.conf";
 
 # Set static if and default gateway
   networking.interfaces.enp8s0.ipv4.addresses = [ {
@@ -50,6 +51,7 @@
       trusted_proxies = "192.168.1.1, 127.0.0.1";
     };
   };
+
   # sécurisation adguard via systemd
   systemd.services.adguardhome.serviceConfig = { 
       ProtectSystem = "strict";

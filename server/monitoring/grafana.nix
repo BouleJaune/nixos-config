@@ -41,6 +41,12 @@ in
 		};
 	};
 
+	environment.etc."grafana/dashboards/restic.json" = {
+			source = ./. + "/grafana-dashboards/restic.json";
+			group = "grafana";
+			user = "grafana";
+		};
+
 	environment.etc."grafana/dashboards/qbitorrent.json" = {
 			source = ./. + "/grafana-dashboards/qbitorrent.json";
 			group = "grafana";
