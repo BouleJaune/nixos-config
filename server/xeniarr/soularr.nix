@@ -18,7 +18,7 @@ in
         host_url = "http://127.0.0.1:${toString slskdConf.web.port}";
         url_base = "/";
         download_dir = slskdConf.directories.downloads;
-        stalled_timeout = "7200";
+        stalled_timeout = "5400";
       };
     };
   };

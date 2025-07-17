@@ -20,6 +20,7 @@
       shares.directories = [ "/bigpool/media/Musics" ];
       directories.downloads = "/bigpool/media/slskd_download/Musics";
       directories.incomplete = "/bigpool/media/slskd_download";
+      retention.search = "1440";
       remote_file_management = true;
       web.authentication.api_keys.soularrkey = {
         key = "da0eed8a57798bb23634a389d5169061";
