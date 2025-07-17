@@ -8,27 +8,27 @@
     scrapeConfigs = [
     { job_name = "node";
       static_configs = [{
-	targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+  targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
       }];}
     { job_name = "zfs_exporter";
       static_configs = [{
-	targets = [ "127.0.0.1:9134" ];
+  targets = [ "127.0.0.1:9134" ];
       }];}
     { job_name = "smartctl_exporter";
       static_configs = [{
-	targets = [ "127.0.0.1:9633" ];
+  targets = [ "127.0.0.1:9633" ];
       }];}
     { job_name = "restic_exporter";
       static_configs = [{
-	targets = [ "127.0.0.1:8002" ];
+  targets = [ "127.0.0.1:8002" ];
       }];}
     { job_name = "ping_exporter";
       static_configs = [{
-	targets = [ "127.0.0.1:9427" ];
+  targets = [ "127.0.0.1:9427" ];
       }];}
     { job_name = "qbittorrent_exporter";
       static_configs = [{
-	targets = [ "127.0.0.1:8002" ];
+  targets = [ "127.0.0.1:8002" ];
       }];}
     ];
     alertmanagers = [
