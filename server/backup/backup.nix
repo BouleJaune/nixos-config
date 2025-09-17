@@ -74,8 +74,6 @@ services.restic.backups.var-lib = {
     passwordFile = config.sops.secrets.restic-repo.path;
   };
 
-
-
 # private key sops, wg confs
 # nextcloud data
 

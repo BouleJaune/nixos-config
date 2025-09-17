@@ -44,7 +44,7 @@ in
 
       interval = mkOption {
         type = types.str;
-        default = "1min";
+        default = "5h";
         example = "1min";
         description = ''
           Launch Soularr at regular intervals.

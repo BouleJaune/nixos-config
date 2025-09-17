@@ -63,7 +63,7 @@
     group = "kanboard";
   };
   users.groups.kanboard = {};
-  
+
   virtualisation.oci-containers.containers = {
     "kanboard" = {
       image = "docker.io/kanboard/kanboard:latest";
