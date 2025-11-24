@@ -52,7 +52,7 @@ options = {
     systemd.services.wireguard-ui = {
       description = "WireGuard UI Web Interface";
       wantedBy = [ "multi-user.target" ];
-     after = [ "network.target" ];
+      after = [ "network.target" ];
 
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/wireguard-ui  --bind-address ${cfg.address}:${toString cfg.port}";

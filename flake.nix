@@ -13,14 +13,24 @@
     sops-nix, 
     nixpkgs-unstable, 
     ... 
-  }@inputs: {
+  }@inputs:
+  let
+  system = "x86_64-linux";
+  pkgs-unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+  pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
+  in
+  {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+      inherit system;
+      pkgs = pkgs;
       modules = [
         ./configuration.nix
         sops-nix.nixosModules.sops
       ];
-      specialArgs.inputs = inputs;
+      specialArgs = { 
+        pkgs-unstable = pkgs-unstable;
+        inputs = inputs;
+        };
     };
   };
 }

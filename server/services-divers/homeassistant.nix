@@ -1,10 +1,29 @@
-{...}:
-
+{pkgs-unstable, config, ...}:
+let
+haps = config.services.home-assistant.package.python.pkgs;
+wiserPackage = haps.callPackage ../../packages/home-assistant/wiser.nix {
+  aiowiserheatapi = haps.callPackage ../../packages/home-assistant/aioWiserHeatAPI.nix {}; 
+  };
+in
 {
-  # services.home-assistant = {
-  #   enable = true;
-  #   config = null;
-  # };
+  services.home-assistant = {
+    enable = true;
+    package = pkgs-unstable.home-assistant.overrideAttrs (oldAttrs: {
+  doInstallCheck = false;
+});
+    config = {
+      default_config = {};
+
+      http = {
+        server_host = "127.0.0.1";
+        trusted_proxies = [ "127.0.0.1" ];
+        use_x_forwarded_for = true;
+      };    
+    };
+    customComponents = [ 
+      wiserPackage 
+      ];
+  };
 
 
   dashy.services.entry = [{
@@ -15,16 +34,7 @@
     enableACME = true;
     forceSSL = true;
     extraConfig = ''
-      set $test 0;
-    if ( $host != "hass.nixos" ){
-      set $test 1;
-    }
-    if ( $host != "www.hass.nixos" ){
-      set $test 1$test;
-    }
-    if ( $test = 11 ){
-      return 444; #CONNECTION CLOSED WITHOUT RESPONSE
-    }
+      proxy_buffering off;
     '';
     locations."/" = {proxyPass = "http://127.0.0.1:8123";
       proxyWebsockets = true;

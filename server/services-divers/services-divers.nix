@@ -29,6 +29,13 @@
     ];
   };
 
+# if webcam
+# services.mjpg-streamer = {
+#   enable = true;
+#   inputPlugin = "input_uvc.so -d /dev/video0 -r 1280x720 -f 15";
+#   outputPlugin = "output_http.so -w @www@ -p 7528"; # Port 7528
+# };
+
   services.dolibarr = {
     enable = true;
     domain = "dolibarr.nixos";

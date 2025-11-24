@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config,  ... }:
 
 {
   
@@ -14,8 +14,6 @@
   networking.nameservers = [ "127.0.0.1" "::1" "9.9.9.9" ];
   
   dashy.services.entry = [
-    # { title = "Home Assistant";
-    # url = "https://hass.nixos/";}
     { title = "Wireguard-ui";
     url = "https://wgui.nixos/";}
     { title = "Adguard Home";
@@ -126,6 +124,7 @@
         locations."/" = {proxyPass = "http://127.0.0.1:4533";};
       };
 
+
        "octoprint.nixos" = {
         enableACME = true;
         forceSSL = true;
@@ -133,6 +132,14 @@
           proxyWebsockets = true; 
           extraConfig = ''
           client_max_body_size 1000M;
+          '';
+        };
+        locations."/webcam/" = {
+          proxyPass = "http://127.0.0.1:7528/";
+          extraConfig = ''
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_buffering off;
           '';
         };
       };

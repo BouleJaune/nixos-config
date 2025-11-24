@@ -7,7 +7,6 @@ sops-nix
 
 ---
 # Not in nix conf
-- HASS (docker compose)
 - Wireguard conf files
 - Adguard mutable conf
 - *arrs webui conf

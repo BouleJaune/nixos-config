@@ -53,8 +53,8 @@ services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
 };
 
 # Allow installation of unfree corefonts package
-nixpkgs.config.allowUnfreePredicate = pkg:
-  builtins.elem (lib.getName pkg) [ "corefonts" ];
+# nixpkgs.config.allowUnfreePredicate = pkg:
+#   builtins.elem (lib.getName pkg) [ "corefonts" ];
 
 fonts.packages = with pkgs; [
   corefonts
