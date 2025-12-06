@@ -93,7 +93,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -101,7 +101,7 @@
             "uid": "prome"
           },
           "editorMode": "code",
-          "expr": "qbittorrent_connected{server=\"127.0.0.1:8080\"} - qbittorrent_firewalled{server=\"127.0.0.1:8080\"}",
+          "expr": "qbittorrent_connected{server=\"127.0.0.1:8080\",job=\"qbittorrent_exporter\"} - qbittorrent_firewalled{server=\"127.0.0.1:8080\",job=\"qbittorrent_exporter\"}",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -174,7 +174,7 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -254,7 +254,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "editorMode": "code",
@@ -340,7 +340,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "editorMode": "code",
@@ -452,7 +452,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -552,7 +552,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -561,7 +561,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "qbittorrent_up{server=\"127.0.0.1:8080\"}",
+          "expr": "qbittorrent_up{server=\"127.0.0.1:8080\", job=\"qbittorrent_exporter\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -644,7 +644,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -731,7 +731,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -817,7 +817,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "disableTextWrap": false,
@@ -919,7 +919,7 @@
         "textMode": "value_and_name",
         "wideLayout": false
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -1019,7 +1019,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -1132,7 +1132,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.1+security-01",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -1169,5 +1169,5 @@
   "timezone": "browser",
   "title": "NixOS server",
   "uid": "162fca0a-fe6b-40d0-9e7f-5769ccf4dc79",
-  "version": 25
+  "version": 28
 }
