@@ -32,10 +32,10 @@
       owner = config.virtualisation.oci-containers.containers."prometheus_qbitorrent_exporter".podman.user ;
       restartUnits = [ "podman-prometheus_qbitorrent_exporter" ];
     };
-    secrets.donetick-env = {
-      owner = config.virtualisation.oci-containers.containers."donetick".podman.user ;
-      restartUnits = [ "podman-donetick" ];
-    };
+    # secrets.donetick-env = {
+    #   owner = config.virtualisation.oci-containers.containers."donetick".podman.user ;
+    #   restartUnits = [ "podman-donetick" ];
+    # };
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
