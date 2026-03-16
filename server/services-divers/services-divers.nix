@@ -3,24 +3,24 @@
 {
 
    #octoprint
-   nixpkgs.overlays = [(self: super: {
-     octoprint = super.octoprint.override {
-       packageOverrides = pyself: pysuper: {
-         octoprint-firmwareupdater = pyself.buildPythonPackage rec {
-           pname = "FirmwareUpdater";
-           version = "1.14.0";
-           src = self.fetchFromGitHub {
-             owner = "OctoPrint";
-             repo = "OctoPrint-FirmwareUpdater";
-             rev = "${version}";
-             sha256 = "sha256-CUNjM/IJJS/lqccZ2B0mDOzv3k8AgmDreA/X9wNJ7iY=";
-           };
-           propagatedBuildInputs = [ pysuper.octoprint ];
-           doCheck = false;
-         };
-       };
-     };
-   })];
+   # nixpkgs.overlays = [(self: super: {
+   #   octoprint = super.octoprint.override {
+   #     packageOverrides = pyself: pysuper: {
+   #       octoprint-firmwareupdater = pyself.buildPythonPackage rec {
+   #         pname = "FirmwareUpdater";
+   #         version = "1.14.0";
+   #         src = self.fetchFromGitHub {
+   #           owner = "OctoPrint";
+   #           repo = "OctoPrint-FirmwareUpdater";
+   #           rev = "${version}";
+   #           sha256 = "sha256-CUNjM/IJJS/lqccZ2B0mDOzv3k8AgmDreA/X9wNJ7iY=";
+   #         };
+   #         propagatedBuildInputs = [ pysuper.octoprint ];
+   #         doCheck = false;
+   #       };
+   #     };
+   #   };
+   # })];
 
   services.octoprint = {
     enable = true;
