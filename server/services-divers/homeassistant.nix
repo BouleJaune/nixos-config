@@ -56,7 +56,7 @@ in
         trigger = [{
           platform = "sun";
           event = "sunset";
-          offset = "3600";
+          offset = "2000";
         }];
         condition = [ ];
         action = [{

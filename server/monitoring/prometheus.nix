@@ -54,6 +54,7 @@
     useDefaultShell = false;
     home = "/var/lib/qbitorrent-exporter";
     group = "qbitorrent-exporter";
+    linger = true;
   };
   users.groups.qbitorrent-exporter = {};
 

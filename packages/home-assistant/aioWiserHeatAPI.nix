@@ -20,7 +20,8 @@ buildPythonPackage rec {
     inherit version;
     hash = "sha256-QJPeUAuNqX4hrMTvOwhIR809jPUIAGgSXZaHfn6OuUc=";
   };
-
+  
+  pyproject = true;
   build-system =  [
       setuptools
       setuptools-git-versioning

@@ -21,10 +21,10 @@
       restartUnits = [ "slsk.service" ];
     };
     secrets.natpmp-qbit-env = {};
-    secrets.nextcloud-jwt = {
-      owner = config.systemd.services.onlyoffice-docservice.serviceConfig.User;
-      restartUnits = [ "onlyoffice-docservice.service" ];
-    };
+#    secrets.nextcloud-jwt = {
+#      owner = config.systemd.services.onlyoffice-docservice.serviceConfig.User;
+ #     restartUnits = [ "onlyoffice-docservice.service" ];
+  #  };
     secrets.nextcloud-admin = {
       restartUnits = [ "phpfpm-nextcloud.service" ];
     };
@@ -82,13 +82,6 @@
     package = pkgs.qemu_kvm;
     runAsRoot = true;
     swtpm.enable = true;
-    ovmf = {
-      enable = true;
-      packages = [(pkgs.OVMF.override {
-        secureBoot = true;
-        tpmSupport = true;
-      }).fd];
-      };
     };
   };
 
@@ -106,7 +99,7 @@
     libgcc
     btop
     ranger
-    win-virtio
+    virtio-win
     # secret management cli
     age
     sops

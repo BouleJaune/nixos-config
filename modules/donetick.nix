@@ -132,6 +132,7 @@ in
     users.users.donetick = {
       useDefaultShell = false;
       isNormalUser = true; 
+      linger = true;
 # TODO variabiliser
       home = "/var/lib/donetick";
       group = "donetick";

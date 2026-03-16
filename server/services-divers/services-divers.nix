@@ -68,6 +68,7 @@
     isNormalUser = true; 
     home = "/var/lib/kanboard";
     group = "kanboard";
+    linger = true;
   };
   users.groups.kanboard = {};
 

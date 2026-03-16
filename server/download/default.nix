@@ -3,7 +3,7 @@
 {
 imports = [
 ./natpmp-qbit.nix
-./slskd.nix
+#./slskd.nix
 ./qbittorrent.nix
 ];
 }

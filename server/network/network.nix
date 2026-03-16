@@ -23,8 +23,11 @@
   networking.firewall.trustedInterfaces = [ "wg-proton" ];
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 443 80 53 ];
-    allowedUDPPorts = [ 53 51820 51825 ];
+    allowedTCPPorts = [ 443 80 53 5000 ];
+    allowedTCPPortRanges = [ { from = 16262; to = 16272; } ]; #pz ports
+    allowedUDPPorts = [ 53 51820 51825 
+	8766 8767 16261 
+  ]; #pz ports
   };
 
   networking.nat.enable = true;
