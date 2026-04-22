@@ -152,7 +152,7 @@ groups:
                     - evaluator:
                         params:
                             - 1
-                        type: gt
+                        type: gte
                       operator:
                         type: and
                       query:
