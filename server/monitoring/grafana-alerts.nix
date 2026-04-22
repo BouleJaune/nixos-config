@@ -16,8 +16,12 @@
 
   sops.secrets.grafana-to-ntfy = {
     owner = config.systemd.services.grafana.serviceConfig.User;
+    group = config.users.users.grafana.group;
+    mode = "0440"; #make grafana to ntfy and grafana readers
     restartUnits = [ "grafana" "grafana-to-ntfy" ];
   };
+
+  users.users.grafana-to-ntfy.extraGroups = [ "grafana" ];
 
   services.grafana.provision.alerting.contactPoints.settings = {
     apiVersion = 1;
