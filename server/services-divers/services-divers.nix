@@ -2,26 +2,6 @@
 
 {
 
-   #octoprint
-   # nixpkgs.overlays = [(self: super: {
-   #   octoprint = super.octoprint.override {
-   #     packageOverrides = pyself: pysuper: {
-   #       octoprint-firmwareupdater = pyself.buildPythonPackage rec {
-   #         pname = "FirmwareUpdater";
-   #         version = "1.14.0";
-   #         src = self.fetchFromGitHub {
-   #           owner = "OctoPrint";
-   #           repo = "OctoPrint-FirmwareUpdater";
-   #           rev = "${version}";
-   #           sha256 = "sha256-CUNjM/IJJS/lqccZ2B0mDOzv3k8AgmDreA/X9wNJ7iY=";
-   #         };
-   #         propagatedBuildInputs = [ pysuper.octoprint ];
-   #         doCheck = false;
-   #       };
-   #     };
-   #   };
-   # })];
-
   services.octoprint = {
     enable = true;
     openFirewall = true;
@@ -63,22 +43,32 @@
     };
   };
 
-  users.users.kanboard = {
-    useDefaultShell = false;
-    isNormalUser = true; 
-    home = "/var/lib/kanboard";
-    group = "kanboard";
-    linger = true;
+  services.kanboard = { 
+    enable = true;
+    domain = "kanboard.nixos";
+    nginx = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/" = {proxyPass = "https://127.0.0.1:3010";};
+      };
   };
-  users.groups.kanboard = {};
+  
+  # users.users.kanboard = {
+  #   useDefaultShell = false;
+  #   isNormalUser = true; 
+  #   home = "/var/lib/kanboard";
+  #   group = "kanboard";
+  #   linger = true;
+  # };
+  # users.groups.kanboard = {};
 
-  virtualisation.oci-containers.containers = {
-    "kanboard" = {
-      image = "docker.io/kanboard/kanboard:latest";
-      ports = ["127.0.0.1:3010:443"];
-      volumes = ["/var/lib/kanboard/data:/var/www/app/data"];
-      autoStart = true;
-      podman.user = "kanboard";
-    };
-  };
+#   virtualisation.oci-containers.containers = {
+#     "kanboard" = {
+#       image = "docker.io/kanboard/kanboard:latest";
+#       ports = ["127.0.0.1:3010:443"];
+#       volumes = ["/var/lib/kanboard/data:/var/www/app/data"];
+#       autoStart = true;
+#       podman.user = "kanboard";
+#     };
+#   };
 }

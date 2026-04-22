@@ -23,10 +23,10 @@
   networking.firewall.trustedInterfaces = [ "wg-proton" ];
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 443 80 53 5000 ];
-    allowedTCPPortRanges = [ { from = 16262; to = 16272; } ]; #pz ports
+    allowedTCPPorts = [ 443 80 53 ];
+    #allowedTCPPortRanges = [ { from = 16262; to = 16272; } ]; #pz ports
     allowedUDPPorts = [ 53 51820 51825 
-	8766 8767 16261 
+#	8766 8767 16261 
   ]; #pz ports
   };
 
@@ -151,11 +151,11 @@
         };
       };
 
-       "kanboard.nixos" = {
-        enableACME = true;
-          forceSSL = true;
-          locations."/" = {proxyPass = "https://127.0.0.1:3010";};
-      };
+      #  "kanboard.nixos" = {
+      #   enableACME = true;
+      #     forceSSL = true;
+      #     locations."/" = {proxyPass = "https://127.0.0.1:3010";};
+      # };
 
       "adguard.nixos" = {
         enableACME = true;

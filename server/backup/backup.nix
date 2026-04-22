@@ -61,8 +61,8 @@ services.restic.backups.var-lib = {
     # Mysql + documents
     "/var/lib/dolibarr" 
     # sqlite
-    "/var/lib/kanboard/data" # no need to dump
-    "/var/lib/donetick" # no need to dump 
+    "/var/lib/kanboard" # no need to dump
+    #"/var/lib/donetick" # no need to dump 
     "/var/lib/jellyfin" 
     ];
     timerConfig = { 
