@@ -6,10 +6,10 @@
     settings = {
       base-url = "https://ntfy.nixos";
       listen-http = ":3126";
+
     };
   };
 
-# services.grafana-to-ntfy.enable = true;
   dashy.monitoring.entry = [{
     title = "ntfy";
     url = "https://ntfy.nixos/";}];

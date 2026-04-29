@@ -1,18 +1,24 @@
-{config, inputs, ...}:
+{config, lib, inputs, ...}:
 
 {
-# port hardcodé à 8000, issue :
-# https://github.com/kittyandrew/grafana-to-ntfy/issues/25
+  # waiting : https://github.com/NixOS/nixpkgs/pull/503343
+  disabledModules = [
+    "services/monitoring/grafana-to-ntfy.nix"
+  ];
+  imports = [
+    ../../modules/grafana-to-ntfy.nix
+  ];
+
   services.grafana-to-ntfy = {
     enable = true;
     settings = {
-      ntfyBAuthPass = "/etc/nixos/test";
       ntfyUrl = "http://127.0.0.1:3126/grafana";
       bauthPass = config.sops.secrets.grafana-to-ntfy.path;
       bauthUser = "admin";
-      ntfyBAuthUser = "grafana";
+      port = 8000;
     };
   };
+
 
   sops.secrets.grafana-to-ntfy = {
     owner = config.systemd.services.grafana.serviceConfig.User;
@@ -21,7 +27,10 @@
     restartUnits = [ "grafana" "grafana-to-ntfy" ];
   };
 
-  users.users.grafana-to-ntfy.extraGroups = [ "grafana" ];
+  users.users.grafana-to-ntfy = {
+    isSystemUser = true;
+    group = "grafana";
+    };
 
   services.grafana.provision.alerting.contactPoints.settings = {
     apiVersion = 1;
@@ -36,7 +45,7 @@
         settings = {
           httpMethod = "POST";
           password = "$__file{${config.sops.secrets.grafana-to-ntfy.path}}";
-          url = "http://localhost:8000";
+          url = "http://localhost:${toString config.services.grafana-to-ntfy.settings.port}";
           username = "admin";
         };
         disableResolveMessage = false;
