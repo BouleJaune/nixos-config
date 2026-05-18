@@ -19,7 +19,6 @@ TODO:
 - selfhosted overleaf
 - nextcloud => OCIS
 - backups /var /bigpool important, wg conf, clé privée sops
-- Fin PR grafana-to-ntfy pour enlever fichier test empty `ntfyBAuthPass = "/etc/nixos/test";`
 - Revoir samba
 - autoscrub + report grafana + autosnapshot
 - vaultwarden backupdir

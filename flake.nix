@@ -1,16 +1,19 @@
 {
   description = "NixOS flake";
 
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     sops-nix.url = "github:Mic92/sops-nix";
+    workout.url = "github:BouleJaune/workout-app";
   };
 
   outputs = { 
     self, 
     nixpkgs, 
     sops-nix, 
+    workout,
     nixpkgs-unstable, 
     ... 
   }@inputs:
@@ -26,6 +29,7 @@
       modules = [
         ./configuration.nix
         sops-nix.nixosModules.sops
+        workout.nixosModules.default
       ];
       specialArgs = { 
         pkgs-unstable = pkgs-unstable;

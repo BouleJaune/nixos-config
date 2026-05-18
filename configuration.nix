@@ -156,14 +156,14 @@ programs.neovim.defaultEditor = true;
 
 # Automatic upgrades avec reboot si nécessaire
   system.autoUpgrade = {
-    enable = true;
+    enable = false; # disabled
     allowReboot = true;
     flake = inputs.self.outPath;
-    flags = [
+    # flags = [
       #"--update-input"
-      "nixpkgs"
-      "-L"
-      ];
+      #"nixpkgs"
+    #  "-L"
+    #  ];
     rebootWindow = { lower = "01:00"; 
                      upper = "02:00"; };
     };

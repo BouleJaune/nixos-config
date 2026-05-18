@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs-unstable, ... }:
 
 {
 
@@ -20,6 +20,7 @@
     enable = true;
     domain = "dolibarr.nixos";
     nginx.serverName = "dolibarr.nixos";
+    package = pkgs-unstable.dolibarr;
     nginx.enableACME = true;
     nginx.forceSSL = true;
   };
@@ -37,6 +38,8 @@
 
   services.vaultwarden = {
     enable = true;
+    webVaultPackage = pkgs-unstable.vaultwarden.webvault;
+    package = pkgs-unstable.vaultwarden;
     config = {
       ROCKET_ADDRESS = "127.0.0.1";
       ROCKET_PORT = 8222;

@@ -5,6 +5,7 @@
 
   services.prometheus = { 
     enable = true;
+    retentionTime = "365d";
     scrapeConfigs = [
     { job_name = "node";
       static_configs = [{
